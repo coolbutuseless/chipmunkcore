@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-![](https://img.shields.io/badge/cool-useless-green.svg) [![R build
-status](https://github.com/coolbutuseless/chipmunkcore-dev/workflows/R-CMD-check/badge.svg)](https://github.com/coolbutuseless/chipmunkcore-dev/actions)
+![](https://img.shields.io/badge/cool-useless-green.svg)
 <!-- badges: end -->
 
 `chipmunkcore` is a low-level wrapper around the
