@@ -83,8 +83,10 @@ Chipmunk <- R6::R6Class(
     #' @param radius radius of body. default: 1
     #' @param mass mass of body. default: 1
     #' @param friction default: 0.7
+    #' @param elasticity default: 0  (no bounce).  Valid range [0, 1]
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    add_body = function(x, y, vx = 0, vy = 0, radius = 1, mass = 1, friction = 0.7) {
+    add_body = function(x, y, vx = 0, vy = 0, radius = 1, mass = 1, friction = 0.7,
+                        elasticity = 0) {
 
       moment <- cpMomentForCircle(mass, 0, radius, cpv(0, 0))
       body <- cpBodyNew(mass, moment);
@@ -97,6 +99,7 @@ Chipmunk <- R6::R6Class(
       shape = cpCircleShapeNew(body, radius, cpv(0, 0));
       cpSpaceAddShape(private$space, shape)
       cpShapeSetFriction(shape, friction)
+
       private$shape <- append(private$shape, shape)
 
       invisible(self)
