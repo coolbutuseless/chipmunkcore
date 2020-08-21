@@ -77,7 +77,16 @@ Add a body to the space. Currently only supports circular bodies.
 \if{latex}{\out{\hypertarget{method-add_body}{}}}
 \subsection{Method \code{add_body()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_body(x, y, vx = 0, vy = 0, radius = 1, mass = 1, friction = 0.7)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_body(
+  x,
+  y,
+  vx = 0,
+  vy = 0,
+  radius = 1,
+  mass = 1,
+  friction = 0.7,
+  elasticity = 0
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -92,6 +101,8 @@ Add a body to the space. Currently only supports circular bodies.
 \item{\code{mass}}{mass of body. default: 1}
 
 \item{\code{friction}}{default: 0.7}
+
+\item{\code{elasticity}}{default: 0  (no bounce).  Valid range [0, 1]}
 }
 \if{html}{\out{</div>}}
 }

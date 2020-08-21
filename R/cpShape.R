@@ -1,12 +1,14 @@
-
+# Auto-generated
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' cpShapeSetFriction
+#' Set the friction of this shape.
 #'
-#' \code{ CP_EXPORT void cpShapeSetFriction(cpShape *shape, cpFloat friction); }
+#' Set the friction of this shape.
 #'
-#' @param shape \code{cpShape *}
-#' @param friction \code{cpFloat}
+#' C function prototype: \code{CP_EXPORT void cpShapeSetFriction(cpShape *shape, cpFloat friction);}
+#'
+#' @param shape [\code{cpShape *}]
+#' @param friction [\code{cpFloat}]
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,15 +19,18 @@ cpShapeSetFriction <- function(shape, friction) {
 }
 
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' cpCircleShapeNew
+#' Allocate and initialize a circle shape.
 #'
-#' \code{ CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset); }
+#' Allocate and initialize a circle shape.
 #'
-#' @param body \code{cpBody *}
-#' @param radius \code{cpFloat}
-#' @param offset \code{cpVect *}
+#' C function prototype: \code{CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset);}
+#'
+#' @param body [\code{cpBody *}]
+#' @param radius [\code{cpFloat}]
+#' @param offset [\code{cpVect *}]
+#'
+#' @return [\code{cpShape *}]
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,16 +41,19 @@ cpCircleShapeNew <- function(body, radius, offset) {
 }
 
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' cpSegmentShapeNew
+#' Allocate and initialize a segment shape.
 #'
-#' \code{ CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius); }
+#' Allocate and initialize a segment shape.
 #'
-#' @param body \code{cpBody *}
-#' @param a \code{cpVect *}
-#' @param b \code{cpVect *}
-#' @param radius \code{cpFloat}
+#' C function prototype: \code{CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius);}
+#'
+#' @param body [\code{cpBody *}]
+#' @param a [\code{cpVect *}]
+#' @param b [\code{cpVect *}]
+#' @param radius [\code{cpFloat}]
+#'
+#' @return [\code{cpShape *}]
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,5 +63,3 @@ cpSegmentShapeNew <- function(body, a, b, radius) {
   stopifnot(inherits(b, "cpVect"))
   .Call("cpSegmentShapeNew_", body, a, b, radius)
 }
-
-

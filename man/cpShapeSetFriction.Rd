@@ -2,15 +2,18 @@
 % Please edit documentation in R/cpShape.R
 \name{cpShapeSetFriction}
 \alias{cpShapeSetFriction}
-\title{cpShapeSetFriction}
+\title{Set the friction of this shape.}
 \usage{
 cpShapeSetFriction(shape, friction)
 }
 \arguments{
-\item{shape}{\code{cpShape *}}
+\item{shape}{[\code{cpShape *}]}
 
-\item{friction}{\code{cpFloat}}
+\item{friction}{[\code{cpFloat}]}
 }
 \description{
-\code{ CP_EXPORT void cpShapeSetFriction(cpShape *shape, cpFloat friction); }
+Set the friction of this shape.
+}
+\details{
+C function prototype: \code{CP_EXPORT void cpShapeSetFriction(cpShape *shape, cpFloat friction);}
 }

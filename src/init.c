@@ -3,11 +3,6 @@
 #include <R.h>
 #include <Rinternals.h>
 
-extern SEXP cpSegmentShapeNew_();
-extern SEXP cpShapeSetFriction_();
-extern SEXP cpCircleShapeNew_();
-
-
 
 extern SEXP cpVect_();
 extern SEXP cpVect_to_list_();
@@ -31,6 +26,11 @@ extern SEXP cpBodyGetPosition_();
 extern SEXP cpBodySetPosition_();
 extern SEXP cpBodyGetVelocity_();
 extern SEXP cpBodySetVelocity_();
+
+// cpShape
+extern SEXP cpShapeSetFriction_();
+extern SEXP cpCircleShapeNew_();
+extern SEXP cpSegmentShapeNew_();
 
 // cpSpace
 extern SEXP cpSpaceNew_();
@@ -69,10 +69,6 @@ static const R_CallMethodDef CEntries[] = {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Funcs
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  {"cpSegmentShapeNew_", (DL_FUNC) &cpSegmentShapeNew_, 4},
-  {"cpShapeSetFriction_", (DL_FUNC) &cpShapeSetFriction_, 2},
-  {"cpCircleShapeNew_", (DL_FUNC) &cpCircleShapeNew_, 3},
-
 
   // ---- begin auto-generated callmethoddefs ----
   // chipmunk
@@ -91,6 +87,11 @@ static const R_CallMethodDef CEntries[] = {
   {"cpBodySetPosition_", (DL_FUNC) &cpBodySetPosition_, 2},
   {"cpBodyGetVelocity_", (DL_FUNC) &cpBodyGetVelocity_, 1},
   {"cpBodySetVelocity_", (DL_FUNC) &cpBodySetVelocity_, 2},
+
+  // cpShape
+  {"cpShapeSetFriction_", (DL_FUNC) &cpShapeSetFriction_, 2},
+  {"cpCircleShapeNew_", (DL_FUNC) &cpCircleShapeNew_, 3},
+  {"cpSegmentShapeNew_", (DL_FUNC) &cpSegmentShapeNew_, 4},
 
   // cpSpace
   {"cpSpaceNew_", (DL_FUNC) &cpSpaceNew_, 0},

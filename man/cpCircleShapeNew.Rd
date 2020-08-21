@@ -2,17 +2,23 @@
 % Please edit documentation in R/cpShape.R
 \name{cpCircleShapeNew}
 \alias{cpCircleShapeNew}
-\title{cpCircleShapeNew}
+\title{Allocate and initialize a circle shape.}
 \usage{
 cpCircleShapeNew(body, radius, offset)
 }
 \arguments{
-\item{body}{\code{cpBody *}}
+\item{body}{[\code{cpBody *}]}
 
-\item{radius}{\code{cpFloat}}
+\item{radius}{[\code{cpFloat}]}
 
-\item{offset}{\code{cpVect *}}
+\item{offset}{[\code{cpVect *}]}
+}
+\value{
+[\code{cpShape *}]
 }
 \description{
-\code{ CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset); }
+Allocate and initialize a circle shape.
+}
+\details{
+C function prototype: \code{CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset);}
 }

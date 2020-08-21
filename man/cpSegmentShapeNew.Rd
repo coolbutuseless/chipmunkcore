@@ -2,19 +2,25 @@
 % Please edit documentation in R/cpShape.R
 \name{cpSegmentShapeNew}
 \alias{cpSegmentShapeNew}
-\title{cpSegmentShapeNew}
+\title{Allocate and initialize a segment shape.}
 \usage{
 cpSegmentShapeNew(body, a, b, radius)
 }
 \arguments{
-\item{body}{\code{cpBody *}}
+\item{body}{[\code{cpBody *}]}
 
-\item{a}{\code{cpVect *}}
+\item{a}{[\code{cpVect *}]}
 
-\item{b}{\code{cpVect *}}
+\item{b}{[\code{cpVect *}]}
 
-\item{radius}{\code{cpFloat}}
+\item{radius}{[\code{cpFloat}]}
+}
+\value{
+[\code{cpShape *}]
 }
 \description{
-\code{ CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius); }
+Allocate and initialize a segment shape.
+}
+\details{
+C function prototype: \code{CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius);}
 }

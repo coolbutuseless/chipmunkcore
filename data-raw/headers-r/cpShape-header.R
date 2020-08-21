@@ -211,7 +211,8 @@ cpShape_header <- list(
   cpCircleShapeNew = list(
     include = TRUE,
     doxy = r"{/// Allocate and initialize a circle shape.}",
-    proto_text = "CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset);"
+    proto_text = "CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset);",
+    post_c = "R_SetExternalPtrProtected(result_, body_); // Protect"
   ),
 
   cpCircleShapeGetOffset = list(
@@ -241,7 +242,8 @@ cpShape_header <- list(
   cpSegmentShapeNew = list(
     include = TRUE,
     doxy = r"{/// Allocate and initialize a segment shape.}",
-    proto_text = "CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius);"
+    proto_text = "CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius);",
+    post_c = "R_SetExternalPtrProtected(result_, body_); // Protect"
   ),
 
   cpSegmentShapeSetNeighbors = list(
