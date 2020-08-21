@@ -30,6 +30,8 @@ Chipmunk <- R6::R6Class(
 
       private$ground_objects <- list()
 
+      private$body_radius <- numeric(0)
+
       private$segments = data.frame(
         x1 = numeric(0),
         y1 = numeric(0),
@@ -47,8 +49,9 @@ Chipmunk <- R6::R6Class(
     #'
     #' @param x1,y1,x2,y2 segment end points
     #' @param friction friction along ground. default 1.
+    #' @param elasticity default: 0 (no bounce)
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    add_segment = function(x1, y1, x2, y2, friction = 1) {
+    add_segment = function(x1, y1, x2, y2, friction = 1, elasticity = 0) {
 
       private$segments <- rbind(
         private$segments,
@@ -58,6 +61,7 @@ Chipmunk <- R6::R6Class(
       static_body <- cpSpaceGetStaticBody(private$space)
       this_ground <- cpSegmentShapeNew(static_body, cpv(x1, y1), cpv(x2, y2), 0)
       cpShapeSetFriction(this_ground, friction)
+      cpShapeSetElasticity(this_ground, elasticity = elasticity)
       cpSpaceAddShape(private$space, this_ground)
 
       private$ground_objects <- append(private$ground_objects, this_ground)
@@ -97,10 +101,14 @@ Chipmunk <- R6::R6Class(
 
 
       shape = cpCircleShapeNew(body, radius, cpv(0, 0));
-      cpSpaceAddShape(private$space, shape)
       cpShapeSetFriction(shape, friction)
+      cpShapeSetElasticity(shape, elasticity)
+      cpSpaceAddShape(private$space, shape)
 
       private$shape <- append(private$shape, shape)
+
+      private$body_radius <- c(private$body_radius, radius)
+
 
       invisible(self)
     },
@@ -121,7 +129,7 @@ Chipmunk <- R6::R6Class(
         ys[i] <- pos$y
       }
 
-      data.frame(idx = seq_along(xs), x = xs, y = ys)
+      data.frame(idx = seq_along(xs), x = xs, y = ys, r = private$body_radius)
     },
 
 
@@ -180,7 +188,8 @@ Chipmunk <- R6::R6Class(
     ground_objects = NULL,
     body           = NULL,
     shape          = NULL,
-    time_step      = NULL
+    time_step      = NULL,
+    body_radius    = NULL
   )
 )
 

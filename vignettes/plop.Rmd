@@ -31,12 +31,12 @@ set.seed(1)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Initialize a simulation space
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cm <- Chipmunk$new(time_step = 0.005)
+cm <- Chipmunk$new(time_step = 0.005, gravity = cpv(0, -30))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add floor with bucket
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cm$add_segment(-70, 0, 70, 0)
+cm$add_segment(-70, 0,  70,  0, elasticity = 0.9)
 cm$add_segment(-20, 0, -30, 20)
 cm$add_segment( 20, 0,  30, 20)
 
@@ -61,12 +61,14 @@ ggplot() +
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add some bodies. Currently only circular bodies supported
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-for (i in 1:400) {
+Nballs <- 100
+for (i in seq_len(Nballs)) {
   cm$add_body(
-    x        = runif(1,  -20,  20), 
-    y        = runif(1,  0, 20),
-    radius   = 0.8,
-    friction = 0.01
+    x          = runif(1,  -20,  20), 
+    y          = runif(1,  0, 20),
+    radius     = runif(1, 1, 3),
+    friction   = 0.01,
+    elasticity = 0.9
   )
 }
 
@@ -76,8 +78,8 @@ cm$add_body(
   y        = 10,
   radius   = 10,
   mass     = 200,
-  vx       = 25,
-  vy       = 130,
+  vx       = 15,
+  vy       = 70,
   friction = 0.01
 )
 
@@ -100,30 +102,34 @@ cm$add_body(
 unlink(list.files("vignettes/png", "*.png", full.names = TRUE))
 
 
+steps <- 600; advance <-  6
+# steps <-  50; advance <- 40
+# steps <-  5; advance <- 400
+# steps <- 150; advance <- 13
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # (1) advance the simulation (2) plot the bodies. (3) Repeat.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-for (i in 1:500) {
+for (i in seq_len(steps)) {
   
   if (i  %% 10 == 0) message(i)
   
-  cm$advance(3)
+  cm$advance(advance)
   
   bodies <- cm$get_bodies()
-  large  <- bodies[401,]
-  bodies <- bodies[1:400,]
+  large  <- bodies[Nballs + 1,]
+  bodies <- bodies[seq_len(Nballs),]
   bodies <- subset(bodies, abs(x) < 70, x > 0)
   
-  small <- 
   
   p <- ggplot() + 
-    geom_point(data = bodies, aes(x, y), size = 1.6, colour = 'black') + 
+    geom_point(data = bodies, aes(x, y, size = I(2.845*r)), colour = 'black') + 
     geom_point(data = large , aes(x, y), size = 30 , colour = '#002366') + 
     geom_segment(data = segments_df, aes(x = x1, y = y1, xend = x2, yend = y2), colour = 'lightblue') + 
     coord_fixed() + 
     theme_void() +
     theme(legend.position = 'none') + 
-    ylim(0, 100)
+    ylim(0, 100) + 
     NULL
   
 
@@ -135,7 +141,7 @@ for (i in 1:500) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ffmpeg - create mp4 from PNG files
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# system("ffmpeg -y -framerate 30 -pattern_type glob -i 'vignettes/png/*.png' -c:v libx264 -pix_fmt yuv420p -s 800x800 vignettes/anim/plop.mp4")
+system("ffmpeg -y -framerate 30 -pattern_type glob -i 'vignettes/png/*.png' -c:v libx264 -pix_fmt yuv420p -s 800x800 vignettes/anim/plop.mp4")
 
 ```
 

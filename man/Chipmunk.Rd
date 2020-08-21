@@ -48,7 +48,7 @@ Add a static segment}
 \if{latex}{\out{\hypertarget{method-add_segment}{}}}
 \subsection{Method \code{add_segment()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_segment(x1, y1, x2, y2, friction = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_segment(x1, y1, x2, y2, friction = 1, elasticity = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -57,6 +57,8 @@ Add a static segment}
 \item{\code{x1, y1, x2, y2}}{segment end points}
 
 \item{\code{friction}}{friction along ground. default 1.}
+
+\item{\code{elasticity}}{default: 0 (no bounce)}
 }
 \if{html}{\out{</div>}}
 }

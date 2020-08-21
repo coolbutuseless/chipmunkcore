@@ -1,7 +1,7 @@
 Package: chipmunkcore
 Type: Package
 Title: Low-Level Wrapper for Chipmunk 2D Physics Library
-Version: 0.1.0
+Version: 0.1.1
 Author: mikefc
 Maintainer: mikefc <mikefc@coolbutuseless.com>
 Description: Low-level wrapper for Chipmunk 2D Physics Library.
