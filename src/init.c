@@ -28,6 +28,13 @@ extern SEXP cpBodyGetVelocity_();
 extern SEXP cpBodySetVelocity_();
 
 // cpShape
+extern SEXP cpShapeSetMass_();
+extern SEXP cpShapeSetDensity_();
+extern SEXP cpShapeGetMoment_();
+extern SEXP cpShapeGetArea_();
+extern SEXP cpShapeGetCenterOfGravity_();
+extern SEXP cpShapeSetSensor_();
+extern SEXP cpShapeSetElasticity_();
 extern SEXP cpShapeSetFriction_();
 extern SEXP cpCircleShapeNew_();
 extern SEXP cpSegmentShapeNew_();
@@ -89,6 +96,13 @@ static const R_CallMethodDef CEntries[] = {
   {"cpBodySetVelocity_", (DL_FUNC) &cpBodySetVelocity_, 2},
 
   // cpShape
+  {"cpShapeSetMass_", (DL_FUNC) &cpShapeSetMass_, 2},
+  {"cpShapeSetDensity_", (DL_FUNC) &cpShapeSetDensity_, 2},
+  {"cpShapeGetMoment_", (DL_FUNC) &cpShapeGetMoment_, 1},
+  {"cpShapeGetArea_", (DL_FUNC) &cpShapeGetArea_, 1},
+  {"cpShapeGetCenterOfGravity_", (DL_FUNC) &cpShapeGetCenterOfGravity_, 1},
+  {"cpShapeSetSensor_", (DL_FUNC) &cpShapeSetSensor_, 2},
+  {"cpShapeSetElasticity_", (DL_FUNC) &cpShapeSetElasticity_, 2},
   {"cpShapeSetFriction_", (DL_FUNC) &cpShapeSetFriction_, 2},
   {"cpCircleShapeNew_", (DL_FUNC) &cpCircleShapeNew_, 3},
   {"cpSegmentShapeNew_", (DL_FUNC) &cpSegmentShapeNew_, 4},

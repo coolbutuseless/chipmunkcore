@@ -74,7 +74,7 @@ cpShape_header <- list(
   ),
 
   cpShapeSetMass = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the mass of this shape to have Chipmunk calculate mass properties for you.}",
     proto_text = "CP_EXPORT void cpShapeSetMass(cpShape *shape, cpFloat mass);"
   ),
@@ -86,25 +86,25 @@ cpShape_header <- list(
   ),
 
   cpShapeSetDensity = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the density  of this shape to have Chipmunk calculate mass properties for you.}",
     proto_text = "CP_EXPORT void cpShapeSetDensity(cpShape *shape, cpFloat density);"
   ),
 
   cpShapeGetMoment = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the calculated moment of inertia for this shape.}",
     proto_text = "CP_EXPORT cpFloat cpShapeGetMoment(cpShape *shape);"
   ),
 
   cpShapeGetArea = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the calculated area of this shape.}",
     proto_text = "CP_EXPORT cpFloat cpShapeGetArea(cpShape *shape);"
   ),
 
   cpShapeGetCenterOfGravity = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the centroid of this shape.}",
     proto_text = "CP_EXPORT cpVect cpShapeGetCenterOfGravity(cpShape *shape);"
   ),
@@ -122,7 +122,7 @@ cpShape_header <- list(
   ),
 
   cpShapeSetSensor = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set if the shape is a sensor or not.}",
     proto_text = "CP_EXPORT void cpShapeSetSensor(cpShape *shape, cpBool sensor);
   "
@@ -135,7 +135,7 @@ cpShape_header <- list(
   ),
 
   cpShapeSetElasticity = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the elasticity of this shape.}",
     proto_text = "CP_EXPORT void cpShapeSetElasticity(cpShape *shape, cpFloat elasticity);"
   ),

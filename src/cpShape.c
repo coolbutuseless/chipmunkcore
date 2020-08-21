@@ -14,6 +14,95 @@
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT void cpShapeSetMass(cpShape *shape, cpFloat mass);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeSetMass_(SEXP shape_, SEXP mass_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpFloat mass = isInteger(mass_) ? (cpFloat)INTEGER(mass_)[0] : (cpFloat)REAL(mass_)[0];
+  cpShapeSetMass(shape, mass);
+  return R_NilValue;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT void cpShapeSetDensity(cpShape *shape, cpFloat density);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeSetDensity_(SEXP shape_, SEXP density_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpFloat density = isInteger(density_) ? (cpFloat)INTEGER(density_)[0] : (cpFloat)REAL(density_)[0];
+  cpShapeSetDensity(shape, density);
+  return R_NilValue;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT cpFloat cpShapeGetMoment(cpShape *shape);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeGetMoment_(SEXP shape_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpFloat result = cpShapeGetMoment(shape);
+  SEXP result_ = PROTECT(ScalarReal(result));
+  UNPROTECT(1);
+  return result_;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT cpFloat cpShapeGetArea(cpShape *shape);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeGetArea_(SEXP shape_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpFloat result = cpShapeGetArea(shape);
+  SEXP result_ = PROTECT(ScalarReal(result));
+  UNPROTECT(1);
+  return result_;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT cpVect cpShapeGetCenterOfGravity(cpShape *shape);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeGetCenterOfGravity_(SEXP shape_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpVect * result = cpVect_obj_to_ptr(cpShapeGetCenterOfGravity(shape));
+  SEXP result_ = PROTECT(R_MakeExternalPtr(result, R_NilValue, R_NilValue));
+  SET_CLASS(result_, mkString("cpVect"));
+  R_RegisterCFinalizer(result_, cpVect_finalizer);
+  UNPROTECT(1);
+  return result_;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT void cpShapeSetSensor(cpShape *shape, cpBool sensor);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeSetSensor_(SEXP shape_, SEXP sensor_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpBool sensor = isReal(sensor_) ? (cpBool)REAL(sensor_)[0] : (cpBool)INTEGER(sensor_)[0];
+  cpShapeSetSensor(shape, sensor);
+  return R_NilValue;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT void cpShapeSetElasticity(cpShape *shape, cpFloat elasticity);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpShapeSetElasticity_(SEXP shape_, SEXP elasticity_)  {
+  cpShape *shape = isNull(shape_) ? NULL : (cpShape *)R_ExternalPtrAddr(shape_);
+  if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
+  cpFloat elasticity = isInteger(elasticity_) ? (cpFloat)INTEGER(elasticity_)[0] : (cpFloat)REAL(elasticity_)[0];
+  cpShapeSetElasticity(shape, elasticity);
+  return R_NilValue;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // CP_EXPORT void cpShapeSetFriction(cpShape *shape, cpFloat friction);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpShapeSetFriction_(SEXP shape_, SEXP friction_)  {
