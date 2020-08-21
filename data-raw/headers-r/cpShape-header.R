@@ -3,7 +3,7 @@
 
 
 
-cpSpace_header <- list(
+cpShape_header <- list(
 
   cpShapeDestroy = list(
     include = FALSE,
@@ -147,7 +147,7 @@ cpSpace_header <- list(
   ),
 
   cpShapeSetFriction = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the friction of this shape.}",
     proto_text = "CP_EXPORT void cpShapeSetFriction(cpShape *shape, cpFloat friction);"
   ),
@@ -209,7 +209,7 @@ cpSpace_header <- list(
   ),
 
   cpCircleShapeNew = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Allocate and initialize a circle shape.}",
     proto_text = "CP_EXPORT cpShape* cpCircleShapeNew(cpBody *body, cpFloat radius, cpVect offset);"
   ),
@@ -239,7 +239,7 @@ cpSpace_header <- list(
   ),
 
   cpSegmentShapeNew = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Allocate and initialize a segment shape.}",
     proto_text = "CP_EXPORT cpShape* cpSegmentShapeNew(cpBody *body, cpVect a, cpVect b, cpFloat radius);"
   ),
