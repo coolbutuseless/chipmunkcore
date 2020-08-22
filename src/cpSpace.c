@@ -148,7 +148,6 @@ SEXP cpSpaceAddShape_(SEXP space_, SEXP shape_)  {
   if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
   cpSpaceAddShape(space, shape);
   R_SetExternalPtrProtected(shape_, space_);  // Protect
-  R_RegisterCFinalizer(shape_, placebo_finalizer);  // 'space is now responsible for memory
   return R_NilValue;
 }
 
@@ -163,7 +162,6 @@ SEXP cpSpaceAddBody_(SEXP space_, SEXP body_)  {
   if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
   cpSpaceAddBody(space, body);
   R_SetExternalPtrProtected(body_, space_);  // Protect
-  R_RegisterCFinalizer(body_, placebo_finalizer);  // 'space is now responsible for memory
   return R_NilValue;
 }
 
@@ -178,7 +176,6 @@ SEXP cpSpaceAddConstraint_(SEXP space_, SEXP constraint_)  {
   if (constraint == NULL) error("'cpConstraint * constraint' pointer is invalid/NULL");
   cpSpaceAddConstraint(space, constraint);
   R_SetExternalPtrProtected(constraint_, space_);  // Protect
-  R_RegisterCFinalizer(constraint_, placebo_finalizer);  // 'space is now responsible for memory
   return R_NilValue;
 }
 
@@ -193,7 +190,6 @@ SEXP cpSpaceRemoveShape_(SEXP space_, SEXP shape_)  {
   if (shape == NULL) error("'cpShape * shape' pointer is invalid/NULL");
   cpSpaceRemoveShape(space, shape);
   R_SetExternalPtrProtected(shape_, R_NilValue);  // unprotect
-  R_RegisterCFinalizer(shape_, cpShape_finalizer);  // Now responsible for own memory
   return R_NilValue;
 }
 
@@ -208,7 +204,6 @@ SEXP cpSpaceRemoveBody_(SEXP space_, SEXP body_)  {
   if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
   cpSpaceRemoveBody(space, body);
   R_SetExternalPtrProtected(body_, R_NilValue);  // unprotect
-  R_RegisterCFinalizer(body_, cpBody_finalizer);  // Now responsible for own memory
   return R_NilValue;
 }
 

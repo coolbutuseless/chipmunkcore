@@ -34,8 +34,8 @@ void generic_finalizer(SEXP ptr_) {
   void *ptr = (void *)R_ExternalPtrAddr(ptr_);
   if (ptr != NULL) {
     free(ptr);
-    R_ClearExternalPtr(ptr_);
   }
+  R_ClearExternalPtr(ptr_);
 }
 
 
@@ -49,8 +49,8 @@ void cpSpace_finalizer(SEXP ptr_) {
   cpSpace *ptr = (cpSpace *)R_ExternalPtrAddr(ptr_);
   if (ptr != NULL) {
     cpSpaceFree(ptr);
-    R_ClearExternalPtr(ptr_);
   }
+  R_ClearExternalPtr(ptr_);
 }
 
 
@@ -60,10 +60,24 @@ void cpSpace_finalizer(SEXP ptr_) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cpShape_finalizer(SEXP ptr_) {
   cpShape *ptr = (cpShape *)R_ExternalPtrAddr(ptr_);
+
+  // Before freeing a shape, remove it from space it's attached to
+  cpSpace *space = cpShapeGetSpace(ptr);
+  if (space != NULL) {
+    //Rprintf("s");
+    cpSpaceRemoveShape(space, ptr);
+  }
+
+  //cpBody *body = cpShapeGetBody(ptr);
+  //if (body != NULL) {
+  //  Rprintf("Removing shape from body before finalizing");
+  //  cpBodyRemoveShape(body, ptr);
+  //}
+
   if (ptr != NULL) {
     cpShapeFree(ptr);
-    R_ClearExternalPtr(ptr_);
   }
+  R_ClearExternalPtr(ptr_);
 }
 
 
@@ -73,10 +87,18 @@ void cpShape_finalizer(SEXP ptr_) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cpBody_finalizer(SEXP ptr_) {
   cpBody *ptr = (cpBody *)R_ExternalPtrAddr(ptr_);
+
+  // Before freeing a body, remove it from space it's attached to
+  cpSpace *space = cpBodyGetSpace(ptr);
+  if (space != NULL) {
+    //Rprintf("b");
+    cpSpaceRemoveBody(space, ptr);
+  }
+
   if (ptr != NULL) {
     cpBodyFree(ptr);
-    R_ClearExternalPtr(ptr_);
   }
+  R_ClearExternalPtr(ptr_);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,8 +109,8 @@ void cpVect_finalizer(SEXP ptr_) {
   cpVect *ptr = (cpVect *)R_ExternalPtrAddr(ptr_);
   if (ptr != NULL) {
     free(ptr);
-    R_ClearExternalPtr(ptr_);
   }
+  R_ClearExternalPtr(ptr_);
 }
 
 

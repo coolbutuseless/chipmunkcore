@@ -1,0 +1,103 @@
+---
+title: "Advanced Demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Advanced Demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>"
+)
+
+
+library(chipmunkcore)
+library(ggplot2)
+```
+
+
+## Advanced Demo
+
+The R6 wrapper is useful for a lot of things, but underneath this wrapper are 
+the raw functions controlling the simulation.
+
+This vignette is an example of how to use the raw functions to perform a simulation.
+
+
+
+
+```{r eval = TRUE}
+library(chipmunkcore)
+set.seed(1)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a new simulation space
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+space <- cpSpaceNew()
+cpSpaceSetGravity(space, gravity = cpv(0, -100))
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Add a static segment as a ground plane
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+static_body <- cpSpaceGetStaticBody(space)
+static_segment <- cpSegmentShapeNew(static_body, cpv(-50, 0), cpv(50, 0), 0)
+cpShapeSetFriction(static_segment, 0.5)
+cpShapeSetElasticity(static_segment, elasticity = 0.9)
+cpSpaceAddShape(space, static_segment)
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Add a circle to the space
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+moment                <- cpMomentForCircle(m=1, 0, r2=1, cpv(0, 0))
+body                  <- cpBodyNew(mass=1, moment);
+cpBodySetPosition(body, cpv(0, 50))
+cpSpaceAddBody(space, body)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Advance the simulation a number of small timesteps
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+for (i in seq_len(50)) {
+  cpSpaceStep(space, 0.01)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get the position of the body
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pos <- cpBodyGetPosition(body)
+as.list(pos)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Advance the simulation a number of small timesteps
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+for (i in seq_len(50)) {
+  cpSpaceStep(space, 0.01)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get the position of the body
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pos <- cpBodyGetPosition(body)
+as.list(pos)
+
+```
+
+
+
+
+
+
+
+
+
+

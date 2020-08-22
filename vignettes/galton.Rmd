@@ -38,10 +38,10 @@ cm <- Chipmunk$new(time_step = 0.005)
 # Add funnel segments
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 gap <- 3
-cm$add_segment( -70, 150, -gap, 100)
-cm$add_segment(  70, 150,  gap, 100)
-cm$add_segment(-gap, 100, -gap,  90)
-cm$add_segment( gap, 100,  gap,  90)
+cm$add_static_segment( -70, 150, -gap, 100)
+cm$add_static_segment(  70, 150,  gap, 100)
+cm$add_static_segment(-gap, 100, -gap,  90)
+cm$add_static_segment( gap, 100,  gap,  90)
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,7 +61,7 @@ for (i in 1:15) {
   xend   <- xs + w
   
   for (xi in seq_along(xs)) {
-    cm$add_segment(xstart[xi], y,  xend[xi],  y)
+    cm$add_static_segment(xstart[xi], y,  xend[xi],  y)
   }
 }
 
@@ -72,18 +72,18 @@ for (i in 1:15) {
 floor <- 0
 width <- 50
 for (x in seq(-width, width, 5)) {
-    cm$add_segment(x, floor,  x,  40)
+    cm$add_static_segment(x, floor,  x,  40)
 }
 
-cm$add_segment(-width, floor, width, floor)
-cm$add_segment(-width, floor-0.2, width, floor-0.2)
+cm$add_static_segment(-width, floor, width, floor)
+cm$add_static_segment(-width, floor-0.2, width, floor-0.2)
 
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Fetch all the segments. Use for plotting
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-segments_df <- cm$get_segments()
+segments_df <- cm$get_static_segments()
 
 ggplot() + 
   geom_segment(data = segments_df, aes(x = x1, y = y1, xend = x2, yend = y2)) + 
@@ -101,7 +101,7 @@ ggplot() +
 # Add some bodies. Currently only circular bodies supported
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 for (i in 1:400) {
-  cm$add_body(
+  cm$add_circle(
     x        = runif(1,  -20,  20), 
     y        = runif(1,  120, 150),
     radius   = 0.8,
@@ -135,7 +135,7 @@ for (i in 1:1000) {
   
   cm$advance(5)
   
-  bodies <- cm$get_bodies()
+  bodies <- cm$get_circles()
   
   p <- ggplot(bodies) + 
     geom_point(aes(x, y), size = 1.6) + 

@@ -24,8 +24,18 @@ extern SEXP cpMomentForBox_();
 extern SEXP cpBodyNew_();
 extern SEXP cpBodyGetPosition_();
 extern SEXP cpBodySetPosition_();
+extern SEXP cpBodyGetCenterOfGravity_();
 extern SEXP cpBodyGetVelocity_();
 extern SEXP cpBodySetVelocity_();
+extern SEXP cpBodyGetForce_();
+extern SEXP cpBodyGetAngle_();
+extern SEXP cpBodySetAngle_();
+extern SEXP cpBodySetAngularVelocity_();
+extern SEXP cpBodySetTorque_();
+extern SEXP cpBodyGetRotation_();
+
+// cpPolyShape
+extern SEXP cpBoxShapeNew_();
 
 // cpShape
 extern SEXP cpShapeSetMass_();
@@ -92,8 +102,18 @@ static const R_CallMethodDef CEntries[] = {
   {"cpBodyNew_", (DL_FUNC) &cpBodyNew_, 2},
   {"cpBodyGetPosition_", (DL_FUNC) &cpBodyGetPosition_, 1},
   {"cpBodySetPosition_", (DL_FUNC) &cpBodySetPosition_, 2},
+  {"cpBodyGetCenterOfGravity_", (DL_FUNC) &cpBodyGetCenterOfGravity_, 1},
   {"cpBodyGetVelocity_", (DL_FUNC) &cpBodyGetVelocity_, 1},
   {"cpBodySetVelocity_", (DL_FUNC) &cpBodySetVelocity_, 2},
+  {"cpBodyGetForce_", (DL_FUNC) &cpBodyGetForce_, 1},
+  {"cpBodyGetAngle_", (DL_FUNC) &cpBodyGetAngle_, 1},
+  {"cpBodySetAngle_", (DL_FUNC) &cpBodySetAngle_, 2},
+  {"cpBodySetAngularVelocity_", (DL_FUNC) &cpBodySetAngularVelocity_, 2},
+  {"cpBodySetTorque_", (DL_FUNC) &cpBodySetTorque_, 2},
+  {"cpBodyGetRotation_", (DL_FUNC) &cpBodyGetRotation_, 1},
+
+  // cpPolyShape
+  {"cpBoxShapeNew_", (DL_FUNC) &cpBoxShapeNew_, 4},
 
   // cpShape
   {"cpShapeSetMass_", (DL_FUNC) &cpShapeSetMass_, 2},

@@ -216,22 +216,16 @@ cpSpace_header <- list(
     doxy = r"{/// Add a collision shape to the simulation.
     /// If the shape is attached to a static body, it will be added as a static shape.}",
     proto_text = "CP_EXPORT void cpSpaceAddShape(cpSpace *space, cpShape *shape);",
-    finalizer = NA, # No finalizer
     void_return_override = "cpShape* changed to void. function does not allocate this. just pass through the arg",
-    post_c = c('R_SetExternalPtrProtected(shape_, space_);  // Protect',
-               "R_RegisterCFinalizer(shape_, placebo_finalizer);  // 'space is now responsible for memory")
+    post_c = c('R_SetExternalPtrProtected(shape_, space_);  // Protect')
   ),
 
   cpSpaceAddBody = list(
     include = TRUE,
     doxy = r"{/// Add a rigid body to the simulation.}",
     proto_text = "CP_EXPORT void cpSpaceAddBody(cpSpace *space, cpBody *body);",
-    finalizer = NA,
     void_return_override = "cpBody* changed to void. function does not allocate this. just pass through the arg",
-    post_c = c(
-      "R_SetExternalPtrProtected(body_, space_);  // Protect",
-      "R_RegisterCFinalizer(body_, placebo_finalizer);  // 'space is now responsible for memory"
-    )
+    post_c = c("R_SetExternalPtrProtected(body_, space_);  // Protect")
   ),
 
   cpSpaceAddConstraint = list(
@@ -239,40 +233,28 @@ cpSpace_header <- list(
     doxy = r"{/// Add a constraint to the simulation.}",
     proto_text = "CP_EXPORT void cpSpaceAddConstraint(cpSpace *space, cpConstraint *constraint);",
     void_return_override = "cpConstraint* changed to void. function does not allocate this. just pass through the arg",
-    post_c = c(
-      "R_SetExternalPtrProtected(constraint_, space_);  // Protect",
-      "R_RegisterCFinalizer(constraint_, placebo_finalizer);  // 'space is now responsible for memory"
-    )
+    post_c = c("R_SetExternalPtrProtected(constraint_, space_);  // Protect")
   ),
 
   cpSpaceRemoveShape = list(
     include = TRUE,
     doxy = r"{/// Remove a collision shape from the simulation.}",
     proto_text = "CP_EXPORT void cpSpaceRemoveShape(cpSpace *space, cpShape *shape);",
-    post_c = c(
-      "R_SetExternalPtrProtected(shape_, R_NilValue);  // unprotect",
-      "R_RegisterCFinalizer(shape_, cpShape_finalizer);  // Now responsible for own memory"
-    )
+    post_c = c("R_SetExternalPtrProtected(shape_, R_NilValue);  // unprotect")
   ),
 
   cpSpaceRemoveBody = list(
     include = TRUE,
     doxy = r"{/// Remove a rigid body from the simulation.}",
     proto_text = "CP_EXPORT void cpSpaceRemoveBody(cpSpace *space, cpBody *body);",
-    post_c = c(
-      "R_SetExternalPtrProtected(body_, R_NilValue);  // unprotect",
-      "R_RegisterCFinalizer(body_, cpBody_finalizer);  // Now responsible for own memory"
-    )
+    post_c = c("R_SetExternalPtrProtected(body_, R_NilValue);  // unprotect")
   ),
 
   cpSpaceRemoveConstraint = list(
     include = FALSE,
     doxy = r"{/// Remove a constraint from the simulation.}",
     proto_text = "CP_EXPORT void cpSpaceRemoveConstraint(cpSpace *space, cpConstraint *constraint);",
-    post_c = c(
-      "R_SetExternalPtrProtected(constraint_, R_NilValue);  // unprotect",
-      "R_RegisterCFinalizer(constraint_, cpConstraint_finalizer);  // Now responsible for own memory"
-    )
+    post_c = c("R_SetExternalPtrProtected(constraint_, R_NilValue);  // unprotect")
   ),
 
   cpSpaceContainsShape = list(

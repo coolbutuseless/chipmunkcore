@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-![](https://img.shields.io/badge/cool-useless-green.svg)
+![](https://img.shields.io/badge/cool-useless-green.svg) [![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 `chipmunkcore` is a low-level wrapper around the
@@ -13,8 +14,8 @@
 library.
 
 There are many low-level functions available, but currently it’s
-probably best to use the limited functionality available through the
-simple [R6]() class provided - `ChipmunkBasic`
+probably best to use the functionality available through the simple
+[R6](https://r6.r-lib.org/) class provided - `Chipmunk`
 
 `chipmunkcore` is just the simulator. To render the positions of bodies
 in the simulation you’ll need to use
@@ -25,7 +26,7 @@ else
 **Read the online documentation
 [here](https://coolbutuseless.github.io/package/chipmunkcore)**
 
-## Pre-requisites
+## Pre-requisites - macOS
 
 You’ll need to install the [Chipmunk2d](http://chipmunk-physics.net/)
 library on your system.
@@ -34,7 +35,13 @@ I only know how to do this on macOS where you can do
 
     brew install chipmunk
 
-If you know how to install this library on other systems, and
+You may also need to update/install your xcode tools - see
+[here](https://stackoverflow.com/questions/58313047/cannot-compile-r-packages-with-c-code-after-updating-to-macos-catalina)
+
+## Pre-requisites - windows + linux
+
+If you know how to install the [Chipmunk2d C
+library](http://chipmunk-physics.net/) on other systems, and
 subsequently compile this package, please let me know by filing an
 issue, or pinging me on [twitter](https://twitter.com/coolbutuseless)
 
@@ -49,9 +56,20 @@ library, you can install this package from
 remotes::install_github('coolbutuseless/chipmunkcore')
 ```
 
+## Vignettes
+
+  - [Basic
+    Circles](https://coolbutuseless.github.io/package/chipmunkcore/articles/basic.html)
+  - [Basic
+    Boxes](https://coolbutuseless.github.io/package/chipmunkcore/articles/basic-boxes.html)
+  - [Galton
+    board](https://coolbutuseless.github.io/package/chipmunkcore/articles/galton.html)
+  - [Plop](https://coolbutuseless.github.io/package/chipmunkcore/articles/plot.html)
+  - [Advanced - lower level
+    functions](https://coolbutuseless.github.io/package/chipmunkcore/articles/advanced.html)
+
 ## ToDo
 
-  - Add other shapes besides circles
   - Add *constraints*
   - Expose more of the underlying C library
 
@@ -77,19 +95,19 @@ cm <- Chipmunk$new()
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add fixed segments
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cm$add_segment(-20, 10, -5, 0)
-cm$add_segment( 20, 10,  5, 0)
+cm$add_static_segment(-20, 10, -5, 0)
+cm$add_static_segment( 20, 10,  5, 0)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Fetch all the segments. Use for plotting
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-segments_df <- cm$get_segments()
+segments_df <- cm$get_static_segments()
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add some bodies. Currently only circular bodies supported
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 for (i in 1:10) {
-  cm$add_body(
+  cm$add_circle(
     x = runif(1, -20, 20), 
     y = runif(1,  10, 50),
     vx = 10 * rnorm(1),
@@ -100,7 +118,7 @@ for (i in 1:10) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Get the current positions of the bodies. as a data.frame
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-bodies <- cm$get_bodies()
+bodies <- cm$get_circles()
 bodies
 
 
@@ -114,7 +132,7 @@ for (frame in 1:45) {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Get the bodies in their new locations
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  bodies <- cm$get_bodies()
+  bodies <- cm$get_circles()
   
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Plot everything
@@ -134,8 +152,6 @@ for (frame in 1:45) {
 ```
 
 ![](man/figures/simple.gif)
-
-## Related Software
 
 ## Acknowledgements
 

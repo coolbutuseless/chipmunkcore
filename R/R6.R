@@ -28,11 +28,11 @@ Chipmunk <- R6::R6Class(
 
       private$time_step = time_step
 
-      private$ground_objects <- list()
+      private$static_segments <- list()
 
-      private$body_radius <- numeric(0)
+      private$circle_radii <- numeric(0)
 
-      private$segments = data.frame(
+      private$static_segments_df = data.frame(
         x1 = numeric(0),
         y1 = numeric(0),
         x2 = numeric(0),
@@ -51,20 +51,20 @@ Chipmunk <- R6::R6Class(
     #' @param friction friction along ground. default 1.
     #' @param elasticity default: 0 (no bounce)
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    add_segment = function(x1, y1, x2, y2, friction = 1, elasticity = 0) {
+    add_static_segment = function(x1, y1, x2, y2, friction = 1, elasticity = 0) {
 
-      private$segments <- rbind(
-        private$segments,
+      private$static_segments_df <- rbind(
+        private$static_segments_df,
         data.frame(x1, y1, x2, y2, friction)
       )
 
       static_body <- cpSpaceGetStaticBody(private$space)
-      this_ground <- cpSegmentShapeNew(static_body, cpv(x1, y1), cpv(x2, y2), 0)
-      cpShapeSetFriction(this_ground, friction)
-      cpShapeSetElasticity(this_ground, elasticity = elasticity)
-      cpSpaceAddShape(private$space, this_ground)
+      static_segment <- cpSegmentShapeNew(static_body, cpv(x1, y1), cpv(x2, y2), 0)
+      cpShapeSetFriction(static_segment, friction)
+      cpShapeSetElasticity(static_segment, elasticity = elasticity)
+      cpSpaceAddShape(private$space, static_segment)
 
-      private$ground_objects <- append(private$ground_objects, this_ground)
+      private$static_segments <- append(private$static_segments, static_segment)
 
 
       invisible(self)
@@ -74,13 +74,13 @@ Chipmunk <- R6::R6Class(
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #' @description Get the data.frame of all current segments
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_segments = function() {
-      private$segments
+    get_static_segments = function() {
+      private$static_segments_df
     },
 
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #' Add a body to the space. Currently only supports circular bodies.
+    #' Add a circular body to the space
     #'
     #' @param x,y initial body location
     #' @param vx,vy initial body velocity
@@ -89,15 +89,15 @@ Chipmunk <- R6::R6Class(
     #' @param friction default: 0.7
     #' @param elasticity default: 0  (no bounce).  Valid range [0, 1]
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    add_body = function(x, y, vx = 0, vy = 0, radius = 1, mass = 1, friction = 0.7,
-                        elasticity = 0) {
+    add_circle = function(x, y, vx = 0, vy = 0, radius = 1, mass = 1, friction = 0.7,
+                          elasticity = 0) {
 
-      moment <- cpMomentForCircle(mass, 0, radius, cpv(0, 0))
-      body <- cpBodyNew(mass, moment);
-      private$body <- append(private$body, body)
-      cpSpaceAddBody(private$space, body)
+      moment                <- cpMomentForCircle(mass, 0, radius, cpv(0, 0))
+      body                  <- cpBodyNew(mass, moment);
+      private$circle_bodies <- append(private$circle_bodies, body)
       cpBodySetPosition(body, cpv(x, y))
       cpBodySetVelocity(body, cpv(vx, vy))
+      cpSpaceAddBody(private$space, body)
 
 
       shape = cpCircleShapeNew(body, radius, cpv(0, 0));
@@ -105,9 +105,68 @@ Chipmunk <- R6::R6Class(
       cpShapeSetElasticity(shape, elasticity)
       cpSpaceAddShape(private$space, shape)
 
-      private$shape <- append(private$shape, shape)
+      private$circle_shapes <- append(private$circle_shapes, shape)
 
-      private$body_radius <- c(private$body_radius, radius)
+      private$circle_radii <- c(private$circle_radii, radius)
+
+
+      invisible(self)
+    },
+
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #' @description Get the location of all the bodies
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_circles = function() {
+
+      xs <- numeric(length(private$circle_bodies))
+      ys <- numeric(length(private$circle_bodies))
+      for (i in seq_along(private$circle_bodies)) {
+        body  <- private$circle_bodies[[i]]
+        pos   <- cpBodyGetPosition(body)
+        pos   <- as.list(pos)
+        xs[i] <- pos$x
+        ys[i] <- pos$y
+      }
+
+      data.frame(idx = seq_along(xs), x = xs, y = ys, r = private$circle_radii)
+    },
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #' Add a box body to the space
+    #'
+    #' @param x,y initial body location
+    #' @param vx,vy initial body velocity
+    #' @param width,height body width and height
+    #' @param angle rotation angle in degrees. default 0
+    #' @param radius radius of rounded corner
+    #' @param mass mass of body. default: 1
+    #' @param friction default: 0.7
+    #' @param elasticity default: 0  (no bounce).  Valid range [0, 1]
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    add_box = function(x, y, vx = 0, vy = 0, width = 1.73, height = 1, angle = 0,
+                          radius = 0.05,
+                          mass = 1, friction = 0.7, elasticity = 0) {
+
+      moment             <- cpMomentForBox(mass, width, height)
+      body               <- cpBodyNew(mass, moment);
+      private$box_bodies <- append(private$box_bodies, body)
+      cpSpaceAddBody(private$space, body)
+      cpBodySetPosition(body, cpv( x,  y))
+      cpBodySetVelocity(body, cpv(vx, vy))
+      cpBodySetAngle   (body, angle * pi/180)
+
+
+      shape <- cpBoxShapeNew(body, width, height, radius)
+      cpShapeSetFriction(shape, friction)
+      cpShapeSetElasticity(shape, elasticity)
+      cpSpaceAddShape(private$space, shape)
+
+      private$box_shapes <- append(private$box_shapes, shape)
+      private$box_widths <- c(private$box_widths , width )
+      private$box_heights<- c(private$box_heights, height)
 
 
       invisible(self)
@@ -116,42 +175,88 @@ Chipmunk <- R6::R6Class(
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #' @description Get the location of all the bodies
+    #'
+    #' @return a data.frame with idx, width, height and rotation angle (radians)
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_bodies = function() {
+    get_boxes = function() {
 
-      xs <- numeric(length(private$body))
-      ys <- numeric(length(private$body))
-      for (i in seq_along(private$body)) {
-        body  <- private$body[[i]]
+      xs <- numeric(length(private$box_bodies))
+      ys <- numeric(length(private$box_bodies))
+      rs <- numeric(length(private$box_bodies))
+
+      for (i in seq_along(private$box_bodies)) {
+        body  <- private$box_bodies[[i]]
         pos   <- cpBodyGetPosition(body)
         pos   <- as.list(pos)
         xs[i] <- pos$x
         ys[i] <- pos$y
+        rs[i] <- cpBodyGetAngle(body)
       }
 
-      data.frame(idx = seq_along(xs), x = xs, y = ys, r = private$body_radius)
+      data.frame(
+        idx    = seq_along(xs),
+        x      = xs,
+        y      = ys,
+        angle  = rs,
+        width  = private$box_widths,
+        height = private$box_heights
+      )
     },
 
 
+
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #' Remove a body from the simulation
+    #' @description Get the location of all the boxes as a list of corner vertices
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_boxes_as_polygons = function() {
+
+      bodies <- self$get_boxes()
+
+      bodies <- transform(
+        bodies,
+        x1 = - width/2,
+        x2 = + width/2,
+        x3 = + width/2,
+        x4 = - width/2,
+
+        y1 = - height/2,
+        y2 = - height/2,
+        y3 = + height/2,
+        y4 = + height/2
+      )
+
+      b1 <- transform(bodies, xs = x + x1 * cos(angle) - y1 * sin(angle), ys = y + x1 * sin(angle) + y1 * cos(angle), vertex = 1L)
+      b2 <- transform(bodies, xs = x + x2 * cos(angle) - y2 * sin(angle), ys = y + x2 * sin(angle) + y2 * cos(angle), vertex = 2L)
+      b3 <- transform(bodies, xs = x + x3 * cos(angle) - y3 * sin(angle), ys = y + x3 * sin(angle) + y3 * cos(angle), vertex = 3L)
+      b4 <- transform(bodies, xs = x + x4 * cos(angle) - y4 * sin(angle), ys = y + x4 * sin(angle) + y4 * cos(angle), vertex = 4L)
+
+      rects <- rbind(b1, b2, b3, b4)[, c('idx', 'vertex', 'xs', 'ys')]
+      names(rects) <- c('idx', 'vertex', 'x', 'y')
+
+      rects[with(rects,order(idx, vertex)),]
+    },
+
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #' Remove a circle from the simulation
     #'
     #' To speed up the simulation process, you could test bodies for
     #' location and remove those you are no longer interested in.
     #'
     #'
-    #' @param i index of body
+    #' @param idx index of circle to remove
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    remove_body = function(i) {
-      if (i < 1 || i > length(private$body)) {
+    remove_circle = function(idx) {
+      if (idx < 1 || idx > length(private$circle_bodies)) {
         warning("Nope")
         return(invisible(self))
       }
 
-      cpSpaceRemoveShape(private$space, private$shape[[i]])
-      cpSpaceRemoveBody(private$space, private$body[[i]])
-      private$shape[[i]] <- NULL
-      private$body[[i]] <- NULL
+      cpSpaceRemoveShape(private$space, private$circle_shapes[[idx]])
+      cpSpaceRemoveBody (private$space, private$circle_bodies[[idx]])
+      private$circle_shapes[[idx]] <- NULL
+      private$circle_bodies[[idx]] <- NULL
 
       invisible(self)
     },
@@ -184,40 +289,21 @@ Chipmunk <- R6::R6Class(
     # @field time_step simulation time_step
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     space          = NULL,
-    segments       = NULL,
-    ground_objects = NULL,
-    body           = NULL,
-    shape          = NULL,
     time_step      = NULL,
-    body_radius    = NULL
+
+    circle_bodies  = NULL,
+    circle_shapes  = NULL,
+    circle_radii   = NULL,
+
+    box_bodies     = NULL,
+    box_shapes     = NULL,
+    box_widths     = NULL,
+    box_heights    = NULL,
+
+    static_segments_df = NULL,
+    static_segments    = NULL
   )
 )
-
-
-
-if (FALSE) {
-
-  set.seed(1)
-  cm <- Chipmunk$new()
-
-  cm$add_segment(-20, 0, 20, 10)
-
-  segment_df <- cm$get_segments()
-
-
-  for (i in 1:10) {
-    cm$add_body(x = runif(1, -20, 20), runif(1, 10, 50))
-  }
-
-  bodies <- cm$get_bodies()
-
-  cm$create_ggplot() + xlim(-20, 20) + ylim(-5,)
-
-  cm$advance(10)
-
-
-}
-
 
 
 

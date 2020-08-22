@@ -1,6 +1,6 @@
 ---
 title: "Plop"
-output: rmarkdown::html_vignette
+output: html_document
 vignette: >
   %\VignetteIndexEntry{Plop}
   %\VignetteEngine{knitr::rmarkdown}
@@ -9,7 +9,7 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
+  collapse = FALSE,
   comment = "#>"
 )
 
@@ -36,15 +36,15 @@ cm <- Chipmunk$new(time_step = 0.005, gravity = cpv(0, -30))
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add floor with bucket
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cm$add_segment(-70, 0,  70,  0, elasticity = 0.9)
-cm$add_segment(-20, 0, -30, 20)
-cm$add_segment( 20, 0,  30, 20)
+cm$add_static_segment(-70, 0,  70,  0, elasticity = 0.9)
+cm$add_static_segment(-20, 0, -30, 20)
+cm$add_static_segment( 20, 0,  30, 20)
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Fetch all the segments. Use for plotting
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-segments_df <- cm$get_segments()
+segments_df <- cm$get_static_segments()
 
 ggplot() + 
   geom_segment(data = segments_df, aes(x = x1, y = y1, xend = x2, yend = y2)) + 
@@ -63,7 +63,7 @@ ggplot() +
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Nballs <- 100
 for (i in seq_len(Nballs)) {
-  cm$add_body(
+  cm$add_circle(
     x          = runif(1,  -20,  20), 
     y          = runif(1,  0, 20),
     radius     = runif(1, 1, 3),
@@ -73,7 +73,7 @@ for (i in seq_len(Nballs)) {
 }
 
 
-cm$add_body(
+cm$add_circle(
   x        = -70,
   y        = 10,
   radius   = 10,
@@ -83,7 +83,7 @@ cm$add_body(
   friction = 0.01
 )
 
-# print(cm$get_bodies())
+# print(cm$get_circles())
 ```
 
 
@@ -116,21 +116,18 @@ for (i in seq_len(steps)) {
   
   cm$advance(advance)
   
-  bodies <- cm$get_bodies()
+  bodies <- cm$get_circles()
   large  <- bodies[Nballs + 1,]
   bodies <- bodies[seq_len(Nballs),]
-  bodies <- subset(bodies, abs(x) < 70, x > 0)
   
   
   p <- ggplot() + 
     geom_point(data = bodies, aes(x, y, size = I(2.845*r)), colour = 'black') + 
     geom_point(data = large , aes(x, y), size = 30 , colour = '#002366') + 
     geom_segment(data = segments_df, aes(x = x1, y = y1, xend = x2, yend = y2), colour = 'lightblue') + 
-    coord_fixed() + 
+    coord_fixed(xlim = c(-70, 70), ylim = c(0, 100)) + 
     theme_void() +
-    theme(legend.position = 'none') + 
-    ylim(0, 100) + 
-    NULL
+    theme(legend.position = 'none') 
   
 
   outfile <- sprintf("vignettes/png/%04i.png", i)

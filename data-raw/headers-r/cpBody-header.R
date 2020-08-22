@@ -132,7 +132,7 @@ cpBody_header <- list(
   ),
 
   cpBodyGetCenterOfGravity = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the offset of the center of gravity in body local coordinates.}",
     proto_text = "CP_EXPORT cpVect cpBodyGetCenterOfGravity(const cpBody *body);"
   ),
@@ -156,7 +156,7 @@ cpBody_header <- list(
   ),
 
   cpBodyGetForce = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the force applied to the body for the next time step.}",
     proto_text = "CP_EXPORT cpVect cpBodyGetForce(const cpBody *body);"
   ),
@@ -168,13 +168,13 @@ cpBody_header <- list(
   ),
 
   cpBodyGetAngle = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the angle of the body.}",
     proto_text = "CP_EXPORT cpFloat cpBodyGetAngle(const cpBody *body);"
   ),
 
   cpBodySetAngle = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the angle of a body.}",
     proto_text = "CP_EXPORT void cpBodySetAngle(cpBody *body, cpFloat a);"
   ),
@@ -186,7 +186,7 @@ cpBody_header <- list(
   ),
 
   cpBodySetAngularVelocity = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the angular velocity of the body.}",
     proto_text = "CP_EXPORT void cpBodySetAngularVelocity(cpBody *body, cpFloat angularVelocity);"
   ),
@@ -198,13 +198,13 @@ cpBody_header <- list(
   ),
 
   cpBodySetTorque = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Set the torque applied to the body for the next time step.}",
     proto_text = "CP_EXPORT void cpBodySetTorque(cpBody *body, cpFloat torque);"
   ),
 
   cpBodyGetRotation = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the rotation vector of the body. (The x basis vector of it's transform.)}",
     proto_text = "CP_EXPORT cpVect cpBodyGetRotation(const cpBody *body);"
   ),

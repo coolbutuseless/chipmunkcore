@@ -12,11 +12,14 @@ Chipmunk class
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Chipmunk$new()}}
-\item \href{#method-add_segment}{\code{Chipmunk$add_segment()}}
-\item \href{#method-get_segments}{\code{Chipmunk$get_segments()}}
-\item \href{#method-add_body}{\code{Chipmunk$add_body()}}
-\item \href{#method-get_bodies}{\code{Chipmunk$get_bodies()}}
-\item \href{#method-remove_body}{\code{Chipmunk$remove_body()}}
+\item \href{#method-add_static_segment}{\code{Chipmunk$add_static_segment()}}
+\item \href{#method-get_static_segments}{\code{Chipmunk$get_static_segments()}}
+\item \href{#method-add_circle}{\code{Chipmunk$add_circle()}}
+\item \href{#method-get_circles}{\code{Chipmunk$get_circles()}}
+\item \href{#method-add_box}{\code{Chipmunk$add_box()}}
+\item \href{#method-get_boxes}{\code{Chipmunk$get_boxes()}}
+\item \href{#method-get_boxes_as_polygons}{\code{Chipmunk$get_boxes_as_polygons()}}
+\item \href{#method-remove_circle}{\code{Chipmunk$remove_circle()}}
 \item \href{#method-advance}{\code{Chipmunk$advance()}}
 \item \href{#method-clone}{\code{Chipmunk$clone()}}
 }
@@ -44,11 +47,11 @@ Add a static segment}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add_segment"></a>}}
-\if{latex}{\out{\hypertarget{method-add_segment}{}}}
-\subsection{Method \code{add_segment()}}{
+\if{html}{\out{<a id="method-add_static_segment"></a>}}
+\if{latex}{\out{\hypertarget{method-add_static_segment}{}}}
+\subsection{Method \code{add_static_segment()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_segment(x1, y1, x2, y2, friction = 1, elasticity = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_static_segment(x1, y1, x2, y2, friction = 1, elasticity = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -64,22 +67,22 @@ Add a static segment}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_segments"></a>}}
-\if{latex}{\out{\hypertarget{method-get_segments}{}}}
-\subsection{Method \code{get_segments()}}{
+\if{html}{\out{<a id="method-get_static_segments"></a>}}
+\if{latex}{\out{\hypertarget{method-get_static_segments}{}}}
+\subsection{Method \code{get_static_segments()}}{
 Get the data.frame of all current segments
-Add a body to the space. Currently only supports circular bodies.
+Add a circular body to the space
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$get_segments()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$get_static_segments()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add_body"></a>}}
-\if{latex}{\out{\hypertarget{method-add_body}{}}}
-\subsection{Method \code{add_body()}}{
+\if{html}{\out{<a id="method-add_circle"></a>}}
+\if{latex}{\out{\hypertarget{method-add_circle}{}}}
+\subsection{Method \code{add_circle()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_body(
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_circle(
   x,
   y,
   vx = 0,
@@ -110,31 +113,97 @@ Add a body to the space. Currently only supports circular bodies.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_bodies"></a>}}
-\if{latex}{\out{\hypertarget{method-get_bodies}{}}}
-\subsection{Method \code{get_bodies()}}{
+\if{html}{\out{<a id="method-get_circles"></a>}}
+\if{latex}{\out{\hypertarget{method-get_circles}{}}}
+\subsection{Method \code{get_circles()}}{
 Get the location of all the bodies
-Remove a body from the simulation
-
-To speed up the simulation process, you could test bodies for
-location and remove those you are no longer interested in.
+Add a box body to the space
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$get_bodies()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$get_circles()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-remove_body"></a>}}
-\if{latex}{\out{\hypertarget{method-remove_body}{}}}
-\subsection{Method \code{remove_body()}}{
+\if{html}{\out{<a id="method-add_box"></a>}}
+\if{latex}{\out{\hypertarget{method-add_box}{}}}
+\subsection{Method \code{add_box()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$remove_body(i)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$add_box(
+  x,
+  y,
+  vx = 0,
+  vy = 0,
+  width = 1.73,
+  height = 1,
+  angle = 0,
+  radius = 0.05,
+  mass = 1,
+  friction = 0.7,
+  elasticity = 0
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{i}}{index of body
+\item{\code{x, y}}{initial body location}
+
+\item{\code{vx, vy}}{initial body velocity}
+
+\item{\code{width, height}}{body width and height}
+
+\item{\code{angle}}{rotation angle in degrees. default 0}
+
+\item{\code{radius}}{radius of rounded corner}
+
+\item{\code{mass}}{mass of body. default: 1}
+
+\item{\code{friction}}{default: 0.7}
+
+\item{\code{elasticity}}{default: 0  (no bounce).  Valid range [0, 1]}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_boxes"></a>}}
+\if{latex}{\out{\hypertarget{method-get_boxes}{}}}
+\subsection{Method \code{get_boxes()}}{
+Get the location of all the bodies
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$get_boxes()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+a data.frame with idx, width, height and rotation angle (radians)
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_boxes_as_polygons"></a>}}
+\if{latex}{\out{\hypertarget{method-get_boxes_as_polygons}{}}}
+\subsection{Method \code{get_boxes_as_polygons()}}{
+Get the location of all the boxes as a list of corner vertices
+Remove a circle from the simulation
+
+To speed up the simulation process, you could test bodies for
+location and remove those you are no longer interested in.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$get_boxes_as_polygons()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-remove_circle"></a>}}
+\if{latex}{\out{\hypertarget{method-remove_circle}{}}}
+\subsection{Method \code{remove_circle()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Chipmunk$remove_circle(idx)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{idx}}{index of circle to remove
 Advance the simulation by N timesteps}
 }
 \if{html}{\out{</div>}}
