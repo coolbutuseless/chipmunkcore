@@ -101,12 +101,49 @@ void cpBody_finalizer(SEXP ptr_) {
   R_ClearExternalPtr(ptr_);
 }
 
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Used internally when within R the 'externalpointer' object gets
+// garbage collected
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void cpConstraint_finalizer(SEXP ptr_) {
+  cpConstraint *ptr = (cpConstraint *)R_ExternalPtrAddr(ptr_);
+
+  // Before freeing a body, remove it from space it's attached to
+  cpSpace *space = cpConstraintGetSpace(ptr);
+  if (space != NULL) {
+    //Rprintf("b");
+    cpSpaceRemoveConstraint(space, ptr);
+  }
+
+  if (ptr != NULL) {
+    cpConstraintFree(ptr);
+  }
+  R_ClearExternalPtr(ptr_);
+}
+
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Used internally when within R the 'externalpointer' object gets
 // garbage collected
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cpVect_finalizer(SEXP ptr_) {
   cpVect *ptr = (cpVect *)R_ExternalPtrAddr(ptr_);
+  if (ptr != NULL) {
+    free(ptr);
+  }
+  R_ClearExternalPtr(ptr_);
+}
+
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Used internally when within R the 'externalpointer' object gets
+// garbage collected
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void cpTransform_finalizer(SEXP ptr_) {
+  cpTransform *ptr = (cpTransform *)R_ExternalPtrAddr(ptr_);
   if (ptr != NULL) {
     free(ptr);
   }

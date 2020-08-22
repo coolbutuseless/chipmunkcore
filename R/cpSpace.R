@@ -319,6 +319,26 @@ cpSpaceRemoveBody <- function(space, body) {
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Remove a constraint from the simulation.
+#'
+#' Remove a constraint from the simulation.
+#'
+#' C function prototype: \code{CP_EXPORT void cpSpaceRemoveConstraint(cpSpace *space, cpConstraint *constraint);}
+#'
+#' @param space [\code{cpSpace *}]
+#' @param constraint [\code{cpConstraint *}]
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cpSpaceRemoveConstraint <- function(space, constraint) {
+  stopifnot(inherits(space, "cpSpace"))
+  stopifnot(inherits(constraint, "cpConstraint"))
+  .Call("cpSpaceRemoveConstraint_", space, constraint)
+  invisible(NULL)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Test if a collision shape has been added to the space.
 #'
 #' Test if a collision shape has been added to the space.
@@ -357,6 +377,27 @@ cpSpaceContainsBody <- function(space, body) {
   stopifnot(inherits(space, "cpSpace"))
   stopifnot(inherits(body, "cpBody"))
   .Call("cpSpaceContainsBody_", space, body)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Test if a constraint has been added to the space.
+#'
+#' Test if a constraint has been added to the space.
+#'
+#' C function prototype: \code{CP_EXPORT cpBool cpSpaceContainsConstraint(cpSpace *space, cpConstraint *constraint);}
+#'
+#' @param space [\code{cpSpace *}]
+#' @param constraint [\code{cpConstraint *}]
+#'
+#' @return [\code{cpBool}]
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cpSpaceContainsConstraint <- function(space, constraint) {
+  stopifnot(inherits(space, "cpSpace"))
+  stopifnot(inherits(constraint, "cpConstraint"))
+  .Call("cpSpaceContainsConstraint_", space, constraint)
 }
 
 

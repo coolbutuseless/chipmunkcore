@@ -9,3 +9,4 @@
 #include <unistd.h>
 
 cpVect * cpVect_obj_to_ptr(cpVect obj);
+cpTransform * cpTransform_obj_to_ptr(cpTransform obj);

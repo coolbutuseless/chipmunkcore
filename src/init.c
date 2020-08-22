@@ -34,7 +34,19 @@ extern SEXP cpBodySetAngularVelocity_();
 extern SEXP cpBodySetTorque_();
 extern SEXP cpBodyGetRotation_();
 
+// cpConstraint
+extern SEXP cpConstraintSetMaxForce_();
+extern SEXP cpConstraintSetErrorBias_();
+extern SEXP cpConstraintSetMaxBias_();
+
+// cpDampedSpring
+extern SEXP cpDampedSpringNew_();
+extern SEXP cpDampedSpringSetRestLength_();
+extern SEXP cpDampedSpringSetStiffness_();
+extern SEXP cpDampedSpringSetDamping_();
+
 // cpPolyShape
+extern SEXP cpPolyShapeNew_();
 extern SEXP cpBoxShapeNew_();
 
 // cpShape
@@ -65,12 +77,22 @@ extern SEXP cpSpaceAddBody_();
 extern SEXP cpSpaceAddConstraint_();
 extern SEXP cpSpaceRemoveShape_();
 extern SEXP cpSpaceRemoveBody_();
+extern SEXP cpSpaceRemoveConstraint_();
 extern SEXP cpSpaceContainsShape_();
 extern SEXP cpSpaceContainsBody_();
+extern SEXP cpSpaceContainsConstraint_();
 extern SEXP cpSpaceReindexStatic_();
 extern SEXP cpSpaceReindexShape_();
 extern SEXP cpSpaceReindexShapesForBody_();
 extern SEXP cpSpaceStep_();
+
+// cpTransform
+extern SEXP cpTransformNew_();
+extern SEXP cpTransformMult_();
+extern SEXP cpTransformTranslate_();
+extern SEXP cpTransformScale_();
+extern SEXP cpTransformRotate_();
+extern SEXP cpTransformRigid_();
 
 // ---- end auto-generated externs ----
 
@@ -112,7 +134,19 @@ static const R_CallMethodDef CEntries[] = {
   {"cpBodySetTorque_", (DL_FUNC) &cpBodySetTorque_, 2},
   {"cpBodyGetRotation_", (DL_FUNC) &cpBodyGetRotation_, 1},
 
+  // cpConstraint
+  {"cpConstraintSetMaxForce_", (DL_FUNC) &cpConstraintSetMaxForce_, 2},
+  {"cpConstraintSetErrorBias_", (DL_FUNC) &cpConstraintSetErrorBias_, 2},
+  {"cpConstraintSetMaxBias_", (DL_FUNC) &cpConstraintSetMaxBias_, 2},
+
+  // cpDampedSpring
+  {"cpDampedSpringNew_", (DL_FUNC) &cpDampedSpringNew_, 7},
+  {"cpDampedSpringSetRestLength_", (DL_FUNC) &cpDampedSpringSetRestLength_, 2},
+  {"cpDampedSpringSetStiffness_", (DL_FUNC) &cpDampedSpringSetStiffness_, 2},
+  {"cpDampedSpringSetDamping_", (DL_FUNC) &cpDampedSpringSetDamping_, 2},
+
   // cpPolyShape
+  {"cpPolyShapeNew_", (DL_FUNC) &cpPolyShapeNew_, 5},
   {"cpBoxShapeNew_", (DL_FUNC) &cpBoxShapeNew_, 4},
 
   // cpShape
@@ -143,12 +177,22 @@ static const R_CallMethodDef CEntries[] = {
   {"cpSpaceAddConstraint_", (DL_FUNC) &cpSpaceAddConstraint_, 2},
   {"cpSpaceRemoveShape_", (DL_FUNC) &cpSpaceRemoveShape_, 2},
   {"cpSpaceRemoveBody_", (DL_FUNC) &cpSpaceRemoveBody_, 2},
+  {"cpSpaceRemoveConstraint_", (DL_FUNC) &cpSpaceRemoveConstraint_, 2},
   {"cpSpaceContainsShape_", (DL_FUNC) &cpSpaceContainsShape_, 2},
   {"cpSpaceContainsBody_", (DL_FUNC) &cpSpaceContainsBody_, 2},
+  {"cpSpaceContainsConstraint_", (DL_FUNC) &cpSpaceContainsConstraint_, 2},
   {"cpSpaceReindexStatic_", (DL_FUNC) &cpSpaceReindexStatic_, 1},
   {"cpSpaceReindexShape_", (DL_FUNC) &cpSpaceReindexShape_, 2},
   {"cpSpaceReindexShapesForBody_", (DL_FUNC) &cpSpaceReindexShapesForBody_, 2},
   {"cpSpaceStep_", (DL_FUNC) &cpSpaceStep_, 2},
+
+  // cpTransform
+  {"cpTransformNew_", (DL_FUNC) &cpTransformNew_, 6},
+  {"cpTransformMult_", (DL_FUNC) &cpTransformMult_, 2},
+  {"cpTransformTranslate_", (DL_FUNC) &cpTransformTranslate_, 1},
+  {"cpTransformScale_", (DL_FUNC) &cpTransformScale_, 2},
+  {"cpTransformRotate_", (DL_FUNC) &cpTransformRotate_, 1},
+  {"cpTransformRigid_", (DL_FUNC) &cpTransformRigid_, 2},
 
   // ---- end auto-generated callmethoddefs ----
 

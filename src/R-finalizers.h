@@ -14,4 +14,8 @@ void generic_finalizer(SEXP ptr_);
 void cpSpace_finalizer(SEXP ptr_);
 void cpShape_finalizer(SEXP ptr_);
 void cpBody_finalizer(SEXP ptr_);
+void cpConstraint_finalizer(SEXP ptr_);
+
+
 void cpVect_finalizer(SEXP ptr_);
+void cpTransform_finalizer(SEXP ptr_);

@@ -209,6 +209,20 @@ SEXP cpSpaceRemoveBody_(SEXP space_, SEXP body_)  {
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT void cpSpaceRemoveConstraint(cpSpace *space, cpConstraint *constraint);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpSpaceRemoveConstraint_(SEXP space_, SEXP constraint_)  {
+  cpSpace *space = isNull(space_) ? NULL : (cpSpace *)R_ExternalPtrAddr(space_);
+  if (space == NULL) error("'cpSpace * space' pointer is invalid/NULL");
+  cpConstraint *constraint = isNull(constraint_) ? NULL : (cpConstraint *)R_ExternalPtrAddr(constraint_);
+  if (constraint == NULL) error("'cpConstraint * constraint' pointer is invalid/NULL");
+  cpSpaceRemoveConstraint(space, constraint);
+  R_SetExternalPtrProtected(constraint_, R_NilValue);  // unprotect
+  return R_NilValue;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // CP_EXPORT cpBool cpSpaceContainsShape(cpSpace *space, cpShape *shape);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpSpaceContainsShape_(SEXP space_, SEXP shape_)  {
@@ -232,6 +246,21 @@ SEXP cpSpaceContainsBody_(SEXP space_, SEXP body_)  {
   cpBody *body = isNull(body_) ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
   if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
   cpBool result = cpSpaceContainsBody(space, body);
+  SEXP result_ = PROTECT(ScalarInteger(result));
+  UNPROTECT(1);
+  return result_;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT cpBool cpSpaceContainsConstraint(cpSpace *space, cpConstraint *constraint);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpSpaceContainsConstraint_(SEXP space_, SEXP constraint_)  {
+  cpSpace *space = isNull(space_) ? NULL : (cpSpace *)R_ExternalPtrAddr(space_);
+  if (space == NULL) error("'cpSpace * space' pointer is invalid/NULL");
+  cpConstraint *constraint = isNull(constraint_) ? NULL : (cpConstraint *)R_ExternalPtrAddr(constraint_);
+  if (constraint == NULL) error("'cpConstraint * constraint' pointer is invalid/NULL");
+  cpBool result = cpSpaceContainsConstraint(space, constraint);
   SEXP result_ = PROTECT(ScalarInteger(result));
   UNPROTECT(1);
   return result_;

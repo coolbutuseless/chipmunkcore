@@ -26,7 +26,7 @@ cpPolyShape_header <- list(
   ),
 
   cpPolyShapeNew = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Allocate and initialize a polygon shape with rounded corners.
     /// A convex hull will be created from the vertexes.}",
     proto_text = "CP_EXPORT cpShape* cpPolyShapeNew(cpBody *body, int count, const cpVect *verts, cpTransform transform, cpFloat radius);",

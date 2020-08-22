@@ -251,7 +251,7 @@ cpSpace_header <- list(
   ),
 
   cpSpaceRemoveConstraint = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Remove a constraint from the simulation.}",
     proto_text = "CP_EXPORT void cpSpaceRemoveConstraint(cpSpace *space, cpConstraint *constraint);",
     post_c = c("R_SetExternalPtrProtected(constraint_, R_NilValue);  // unprotect")
@@ -270,7 +270,7 @@ cpSpace_header <- list(
   ),
 
   cpSpaceContainsConstraint = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Test if a constraint has been added to the space.}",
     proto_text = "CP_EXPORT cpBool cpSpaceContainsConstraint(cpSpace *space, cpConstraint *constraint);"
   ),

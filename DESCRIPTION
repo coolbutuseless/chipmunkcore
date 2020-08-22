@@ -1,7 +1,7 @@
 Package: chipmunkcore
 Type: Package
 Title: Low-Level Wrapper for Chipmunk 2D Physics Library
-Version: 0.1.2
+Version: 0.1.3
 Author: mikefc
 Maintainer: mikefc <mikefc@coolbutuseless.com>
 Description: Low-level wrapper for Chipmunk 2D Physics Library.
@@ -10,10 +10,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/coolbutuseless/chipmunkcore,https://coolbutuseless.github.io/package/chipmunkcore
 RoxygenNote: 7.1.0
-Imports:
-    R6
 Suggests: 
     knitr,
-    rmarkdown,
-    ggplot2
+    rmarkdown
 VignetteBuilder: knitr

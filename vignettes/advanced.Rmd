@@ -15,7 +15,6 @@ knitr::opts_chunk$set(
 
 
 library(chipmunkcore)
-library(ggplot2)
 ```
 
 

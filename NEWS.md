@@ -1,4 +1,10 @@
 
+
+# chipmunkcore 0.1.3
+
+* API: move R6 higher-level wrapper to its own package [chipmunkbasic](https://github.com/coolbutuseless/chipmunkbasic)
+* Features: exposed damped spring constraint
+
 # chipmunkcore 0.1.2
 
 * Features: Added box object
