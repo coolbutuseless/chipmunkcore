@@ -89,6 +89,8 @@ for (i in seq_len(50)) {
 pos <- cpBodyGetPosition(body)
 as.list(pos)
 
+
+get_body_state(list(body))
 ```
 
 

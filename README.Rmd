@@ -212,7 +212,18 @@ remotes::install_github('coolbutuseless/chipmunkcore')
 * Add *constraints*
 * Expose more of the underlying C library
 
-## Galton Board
+## Bespoke Functions
+
+The chipmunk C library is very low level, and it's not always convenient/quick in R
+to loop over a set of structures to accumulate a result.
+
+For these reasons, there are some bespoke functions which take some of the drudgery
+out of calling into C
+
+* `get_body_state(bodies)` will return a data.frame of all current state information
+for the bodies listed i.e. position, velocity, force, angle, angular velocity and torque.
+
+## Example: Galton Board
 
 For full code, see the [vignette](https://coolbutuseless.github.io/package/chipmunkcore/articles/galton.html)
 in [chipmunkbasic](https://github.com/coolbutuseless/chipmunkbasic) 

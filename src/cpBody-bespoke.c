@@ -16,15 +16,23 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // get a data.frame of information about each body in the given list (ll)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SEXP get_all_body_info_(SEXP bodies_) {
+SEXP get_body_state_(SEXP bodies_) {
 
   int n = length(bodies_);
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Do an early check for validity
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  for (int i = 0; i < n; i++) {
+    SEXP body_ = VECTOR_ELT(bodies_, i);
+    cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
+    if (body == NULL) error("'cpBody * body' pointer is invalid/NULL at position %i", i);
+  }
+
 
   SEXP idx_    = PROTECT(allocVector(INTSXP , n));
   SEXP x_      = PROTECT(allocVector(REALSXP, n));
   SEXP y_      = PROTECT(allocVector(REALSXP, n));
-  SEXP cx_     = PROTECT(allocVector(REALSXP, n));
-  SEXP cy_     = PROTECT(allocVector(REALSXP, n));
   SEXP vx_     = PROTECT(allocVector(REALSXP, n));
   SEXP vy_     = PROTECT(allocVector(REALSXP, n));
   SEXP fx_     = PROTECT(allocVector(REALSXP, n));
@@ -33,11 +41,52 @@ SEXP get_all_body_info_(SEXP bodies_) {
   SEXP omega_  = PROTECT(allocVector(REALSXP, n));
   SEXP torque_ = PROTECT(allocVector(REALSXP, n));
 
+  int *idx       = INTEGER(idx_);
+  double *x      = REAL(x_);
+  double *y      = REAL(y_);
+  double *vx     = REAL(vx_);
+  double *vy     = REAL(vy_);
+  double *fx     = REAL(fx_);
+  double *fy     = REAL(fy_);
+  double *theta  = REAL(theta_);
+  double *omega  = REAL(omega_);
+  double *torque = REAL(torque_);
+
+  for (int i = 0; i < n; i++) {
+    SEXP body_ = VECTOR_ELT(bodies_, i);
+    cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
+    if (body == NULL) error("'cpBody * body' pointer is invalid/NULL at position %i", i);
+
+    idx[i] = i;
+
+    // Position
+    cpVect pos = cpBodyGetPosition(body);
+    x[i] = pos.x;
+    y[i] = pos.y;
+
+    // Velocity
+    cpVect vel = cpBodyGetVelocity(body);
+    vx[i] = vel.x;
+    vy[i] = vel.y;
+
+    // Force
+    cpVect F = cpBodyGetForce(body);
+    fx[i] = F.x;
+    fy[i] = F.y;
+
+    // theta
+    theta [i] = cpBodyGetAngle(body);
+    omega [i] = cpBodyGetAngularVelocity(body);
+    torque[i] = cpBodyGetTorque(body);
+  }
+
+
+
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Allocate a data.frame
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  SEXP df_ = PROTECT(allocVector(VECSXP, 12));
+  SEXP df_ = PROTECT(allocVector(VECSXP, 10));
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Add columns to the data.frame
@@ -45,15 +94,13 @@ SEXP get_all_body_info_(SEXP bodies_) {
   SET_VECTOR_ELT(df_,  0, idx_);
   SET_VECTOR_ELT(df_,  1, x_);
   SET_VECTOR_ELT(df_,  2, y_);
-  SET_VECTOR_ELT(df_,  3, cx_);
-  SET_VECTOR_ELT(df_,  4, cy_);
-  SET_VECTOR_ELT(df_,  5, vx_);
-  SET_VECTOR_ELT(df_,  6, vy_);
-  SET_VECTOR_ELT(df_,  7, fx_);
-  SET_VECTOR_ELT(df_,  8, fy_);
-  SET_VECTOR_ELT(df_,  9, theta_);
-  SET_VECTOR_ELT(df_, 10, omega_);
-  SET_VECTOR_ELT(df_, 11, torque_);
+  SET_VECTOR_ELT(df_,  3, vx_);
+  SET_VECTOR_ELT(df_,  4, vy_);
+  SET_VECTOR_ELT(df_,  5, fx_);
+  SET_VECTOR_ELT(df_,  6, fy_);
+  SET_VECTOR_ELT(df_,  7, theta_);
+  SET_VECTOR_ELT(df_,  8, omega_);
+  SET_VECTOR_ELT(df_,  9, torque_);
 
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,19 +111,17 @@ SEXP get_all_body_info_(SEXP bodies_) {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Set the names on the list.
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  SEXP names = PROTECT(allocVector(STRSXP, 12));
+  SEXP names = PROTECT(allocVector(STRSXP, 10));
   SET_STRING_ELT(names,  0, mkChar("idx"));
   SET_STRING_ELT(names,  1, mkChar("x"));
   SET_STRING_ELT(names,  2, mkChar("y"));
-  SET_STRING_ELT(names,  3, mkChar("cx"));
-  SET_STRING_ELT(names,  4, mkChar("cy"));
-  SET_STRING_ELT(names,  5, mkChar("vx"));
-  SET_STRING_ELT(names,  6, mkChar("vy"));
-  SET_STRING_ELT(names,  7, mkChar("fx"));
-  SET_STRING_ELT(names,  8, mkChar("fy"));
-  SET_STRING_ELT(names,  9, mkChar("theta"));
-  SET_STRING_ELT(names, 10, mkChar("omega"));
-  SET_STRING_ELT(names, 11, mkChar("torgue"));
+  SET_STRING_ELT(names,  3, mkChar("vx"));
+  SET_STRING_ELT(names,  4, mkChar("vy"));
+  SET_STRING_ELT(names,  5, mkChar("fx"));
+  SET_STRING_ELT(names,  6, mkChar("fy"));
+  SET_STRING_ELT(names,  7, mkChar("theta"));
+  SET_STRING_ELT(names,  8, mkChar("omega"));
+  SET_STRING_ELT(names,  9, mkChar("torgue"));
   setAttrib(df_, R_NamesSymbol, names);
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,6 +138,6 @@ SEXP get_all_body_info_(SEXP bodies_) {
 
 
 
-  UNPROTECT(15);
+  UNPROTECT(13);
   return df_;
 }

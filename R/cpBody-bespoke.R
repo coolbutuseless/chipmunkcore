@@ -2,7 +2,7 @@
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Get all info for a list of bodies
+#' Get the current state for every body in a list
 #'
 #' @param bodies list of \code{cpBody} objects
 #'
@@ -10,6 +10,6 @@
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-get_all_body_info <- function(bodies) {
-  .Call(get_all_body_info_, bodies)
+get_body_state <- function(bodies) {
+  .Call(get_body_state_, bodies)
 }
