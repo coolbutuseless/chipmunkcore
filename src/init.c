@@ -4,6 +4,8 @@
 #include <Rinternals.h>
 
 
+extern SEXP get_all_body_info_();
+
 extern SEXP cpVect_();
 extern SEXP cpVect_to_list_();
 
@@ -98,6 +100,8 @@ extern SEXP cpTransformRigid_();
 
 
 static const R_CallMethodDef CEntries[] = {
+
+  {"get_all_body_info_", (DL_FUNC) &get_all_body_info_, 1},
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Structs
