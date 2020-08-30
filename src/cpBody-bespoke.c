@@ -57,7 +57,7 @@ SEXP get_body_state_(SEXP bodies_) {
     cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
     if (body == NULL) error("'cpBody * body' pointer is invalid/NULL at position %i", i);
 
-    idx[i] = i;
+    idx[i] = i + 1;
 
     // Position
     cpVect pos = cpBodyGetPosition(body);
@@ -121,7 +121,7 @@ SEXP get_body_state_(SEXP bodies_) {
   SET_STRING_ELT(names,  6, mkChar("fy"));
   SET_STRING_ELT(names,  7, mkChar("theta"));
   SET_STRING_ELT(names,  8, mkChar("omega"));
-  SET_STRING_ELT(names,  9, mkChar("torgue"));
+  SET_STRING_ELT(names,  9, mkChar("torque"));
   setAttrib(df_, R_NamesSymbol, names);
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
