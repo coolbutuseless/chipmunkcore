@@ -20,7 +20,7 @@ SEXP cpMomentForCircle_(SEXP m_, SEXP r1_, SEXP r2_, SEXP offset_)  {
   cpFloat m = isInteger(m_) ? (cpFloat)INTEGER(m_)[0] : (cpFloat)REAL(m_)[0];
   cpFloat r1 = isInteger(r1_) ? (cpFloat)INTEGER(r1_)[0] : (cpFloat)REAL(r1_)[0];
   cpFloat r2 = isInteger(r2_) ? (cpFloat)INTEGER(r2_)[0] : (cpFloat)REAL(r2_)[0];
-  cpVect *offset = isNull(offset_) ? NULL : (cpVect *)R_ExternalPtrAddr(offset_);
+  cpVect *offset = TYPEOF(offset_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(offset_);
   if (offset == NULL) error("'cpVect * offset' pointer is invalid/NULL");
   cpFloat result = cpMomentForCircle(m, r1, r2, *offset);
   SEXP result_ = PROTECT(ScalarReal(result));
@@ -47,9 +47,9 @@ SEXP cpAreaForCircle_(SEXP r1_, SEXP r2_)  {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpMomentForSegment_(SEXP m_, SEXP a_, SEXP b_, SEXP radius_)  {
   cpFloat m = isInteger(m_) ? (cpFloat)INTEGER(m_)[0] : (cpFloat)REAL(m_)[0];
-  cpVect *a = isNull(a_) ? NULL : (cpVect *)R_ExternalPtrAddr(a_);
+  cpVect *a = TYPEOF(a_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(a_);
   if (a == NULL) error("'cpVect * a' pointer is invalid/NULL");
-  cpVect *b = isNull(b_) ? NULL : (cpVect *)R_ExternalPtrAddr(b_);
+  cpVect *b = TYPEOF(b_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(b_);
   if (b == NULL) error("'cpVect * b' pointer is invalid/NULL");
   cpFloat radius = isInteger(radius_) ? (cpFloat)INTEGER(radius_)[0] : (cpFloat)REAL(radius_)[0];
   cpFloat result = cpMomentForSegment(m, *a, *b, radius);
@@ -63,9 +63,9 @@ SEXP cpMomentForSegment_(SEXP m_, SEXP a_, SEXP b_, SEXP radius_)  {
 // CP_EXPORT cpFloat cpAreaForSegment(cpVect a, cpVect b, cpFloat radius);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpAreaForSegment_(SEXP a_, SEXP b_, SEXP radius_)  {
-  cpVect *a = isNull(a_) ? NULL : (cpVect *)R_ExternalPtrAddr(a_);
+  cpVect *a = TYPEOF(a_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(a_);
   if (a == NULL) error("'cpVect * a' pointer is invalid/NULL");
-  cpVect *b = isNull(b_) ? NULL : (cpVect *)R_ExternalPtrAddr(b_);
+  cpVect *b = TYPEOF(b_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(b_);
   if (b == NULL) error("'cpVect * b' pointer is invalid/NULL");
   cpFloat radius = isInteger(radius_) ? (cpFloat)INTEGER(radius_)[0] : (cpFloat)REAL(radius_)[0];
   cpFloat result = cpAreaForSegment(*a, *b, radius);
@@ -81,9 +81,9 @@ SEXP cpAreaForSegment_(SEXP a_, SEXP b_, SEXP radius_)  {
 SEXP cpMomentForPoly_(SEXP m_, SEXP count_, SEXP verts_, SEXP offset_, SEXP radius_)  {
   cpFloat m = isInteger(m_) ? (cpFloat)INTEGER(m_)[0] : (cpFloat)REAL(m_)[0];
   int count = isReal(count_) ? (int)REAL(count_)[0] : (int)INTEGER(count_)[0];
-  cpVect *verts = isNull(verts_) ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
+  cpVect *verts = TYPEOF(verts_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
   if (verts == NULL) error("'cpVect * verts' pointer is invalid/NULL");
-  cpVect *offset = isNull(offset_) ? NULL : (cpVect *)R_ExternalPtrAddr(offset_);
+  cpVect *offset = TYPEOF(offset_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(offset_);
   if (offset == NULL) error("'cpVect * offset' pointer is invalid/NULL");
   cpFloat radius = isInteger(radius_) ? (cpFloat)INTEGER(radius_)[0] : (cpFloat)REAL(radius_)[0];
   cpFloat result = cpMomentForPoly(m, count, verts, *offset, radius);
@@ -98,7 +98,7 @@ SEXP cpMomentForPoly_(SEXP m_, SEXP count_, SEXP verts_, SEXP offset_, SEXP radi
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpAreaForPoly_(SEXP count_, SEXP verts_, SEXP radius_)  {
   int count = isReal(count_) ? (int)REAL(count_)[0] : (int)INTEGER(count_)[0];
-  cpVect *verts = isNull(verts_) ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
+  cpVect *verts = TYPEOF(verts_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
   if (verts == NULL) error("'cpVect * verts' pointer is invalid/NULL");
   cpFloat radius = isInteger(radius_) ? (cpFloat)INTEGER(radius_)[0] : (cpFloat)REAL(radius_)[0];
   cpFloat result = cpAreaForPoly(count, verts, radius);
@@ -113,7 +113,7 @@ SEXP cpAreaForPoly_(SEXP count_, SEXP verts_, SEXP radius_)  {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpCentroidForPoly_(SEXP count_, SEXP verts_)  {
   int count = isReal(count_) ? (int)REAL(count_)[0] : (int)INTEGER(count_)[0];
-  cpVect *verts = isNull(verts_) ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
+  cpVect *verts = TYPEOF(verts_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
   if (verts == NULL) error("'cpVect * verts' pointer is invalid/NULL");
   cpVect * result = cpVect_obj_to_ptr(cpCentroidForPoly(count, verts));
   SEXP result_ = PROTECT(R_MakeExternalPtr(result, R_NilValue, R_NilValue));

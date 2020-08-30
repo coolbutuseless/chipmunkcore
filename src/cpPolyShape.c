@@ -17,12 +17,12 @@
 // CP_EXPORT cpShape* cpPolyShapeNew(cpBody *body, int count, const cpVect *verts, cpTransform transform, cpFloat radius);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpPolyShapeNew_(SEXP body_, SEXP count_, SEXP verts_, SEXP transform_, SEXP radius_)  {
-  cpBody *body = isNull(body_) ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
+  cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
   if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
   int count = isReal(count_) ? (int)REAL(count_)[0] : (int)INTEGER(count_)[0];
-  cpVect *verts = isNull(verts_) ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
+  cpVect *verts = TYPEOF(verts_) != EXTPTRSXP ? NULL : (cpVect *)R_ExternalPtrAddr(verts_);
   if (verts == NULL) error("'cpVect * verts' pointer is invalid/NULL");
-  cpTransform *transform = isNull(transform_) ? NULL : (cpTransform *)R_ExternalPtrAddr(transform_);
+  cpTransform *transform = TYPEOF(transform_) != EXTPTRSXP ? NULL : (cpTransform *)R_ExternalPtrAddr(transform_);
   if (transform == NULL) error("'cpTransform * transform' pointer is invalid/NULL");
   cpFloat radius = isInteger(radius_) ? (cpFloat)INTEGER(radius_)[0] : (cpFloat)REAL(radius_)[0];
   cpShape * result = cpPolyShapeNew(body, count, verts, *transform, radius);
@@ -39,7 +39,7 @@ SEXP cpPolyShapeNew_(SEXP body_, SEXP count_, SEXP verts_, SEXP transform_, SEXP
 // CP_EXPORT cpShape* cpBoxShapeNew(cpBody *body, cpFloat width, cpFloat height, cpFloat radius);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpBoxShapeNew_(SEXP body_, SEXP width_, SEXP height_, SEXP radius_)  {
-  cpBody *body = isNull(body_) ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
+  cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
   if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
   cpFloat width = isInteger(width_) ? (cpFloat)INTEGER(width_)[0] : (cpFloat)REAL(width_)[0];
   cpFloat height = isInteger(height_) ? (cpFloat)INTEGER(height_)[0] : (cpFloat)REAL(height_)[0];

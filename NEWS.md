@@ -1,4 +1,8 @@
 
+# chipmunkcore 0.1.5
+
+* Internal: regenerate C code using latest `{cheddar}` package.
+    * Better checking of external pointers before unpacking in C
 
 # chipmunkcore 0.1.4
 
