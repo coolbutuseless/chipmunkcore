@@ -4,6 +4,8 @@
 #include <Rinternals.h>
 
 
+extern SEXP get_body_state_();
+
 extern SEXP cpVect_();
 extern SEXP cpVect_to_list_();
 
@@ -98,6 +100,8 @@ extern SEXP cpTransformRigid_();
 
 
 static const R_CallMethodDef CEntries[] = {
+
+  {"get_body_state_", (DL_FUNC) &get_body_state_, 1},
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Structs
