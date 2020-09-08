@@ -174,6 +174,25 @@ cpBodySetAngle <- function(body, a) {
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Get the angular velocity of the body.
+#'
+#' Get the angular velocity of the body.
+#'
+#' C function prototype: \code{CP_EXPORT cpFloat cpBodyGetAngularVelocity(const cpBody *body);}
+#'
+#' @param body [\code{cpBody *}]
+#'
+#' @return [\code{cpFloat}]
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cpBodyGetAngularVelocity <- function(body) {
+  stopifnot(inherits(body, "cpBody"))
+  .Call("cpBodyGetAngularVelocity_", body)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Set the angular velocity of the body.
 #'
 #' Set the angular velocity of the body.
@@ -189,6 +208,25 @@ cpBodySetAngularVelocity <- function(body, angularVelocity) {
   stopifnot(inherits(body, "cpBody"))
   .Call("cpBodySetAngularVelocity_", body, angularVelocity)
   invisible(NULL)
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Get the torque applied to the body for the next time step.
+#'
+#' Get the torque applied to the body for the next time step.
+#'
+#' C function prototype: \code{CP_EXPORT cpFloat cpBodyGetTorque(const cpBody *body);}
+#'
+#' @param body [\code{cpBody *}]
+#'
+#' @return [\code{cpFloat}]
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cpBodyGetTorque <- function(body) {
+  stopifnot(inherits(body, "cpBody"))
+  .Call("cpBodyGetTorque_", body)
 }
 
 

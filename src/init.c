@@ -32,7 +32,9 @@ extern SEXP cpBodySetVelocity_();
 extern SEXP cpBodyGetForce_();
 extern SEXP cpBodyGetAngle_();
 extern SEXP cpBodySetAngle_();
+extern SEXP cpBodyGetAngularVelocity_();
 extern SEXP cpBodySetAngularVelocity_();
+extern SEXP cpBodyGetTorque_();
 extern SEXP cpBodySetTorque_();
 extern SEXP cpBodyGetRotation_();
 
@@ -134,7 +136,9 @@ static const R_CallMethodDef CEntries[] = {
   {"cpBodyGetForce_", (DL_FUNC) &cpBodyGetForce_, 1},
   {"cpBodyGetAngle_", (DL_FUNC) &cpBodyGetAngle_, 1},
   {"cpBodySetAngle_", (DL_FUNC) &cpBodySetAngle_, 2},
+  {"cpBodyGetAngularVelocity_", (DL_FUNC) &cpBodyGetAngularVelocity_, 1},
   {"cpBodySetAngularVelocity_", (DL_FUNC) &cpBodySetAngularVelocity_, 2},
+  {"cpBodyGetTorque_", (DL_FUNC) &cpBodyGetTorque_, 1},
   {"cpBodySetTorque_", (DL_FUNC) &cpBodySetTorque_, 2},
   {"cpBodyGetRotation_", (DL_FUNC) &cpBodyGetRotation_, 1},
 

@@ -180,7 +180,7 @@ cpBody_header <- list(
   ),
 
   cpBodyGetAngularVelocity = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the angular velocity of the body.}",
     proto_text = "CP_EXPORT cpFloat cpBodyGetAngularVelocity(const cpBody *body);"
   ),
@@ -192,7 +192,7 @@ cpBody_header <- list(
   ),
 
   cpBodyGetTorque = list(
-    include = FALSE,
+    include = TRUE,
     doxy = r"{/// Get the torque applied to the body for the next time step.}",
     proto_text = "CP_EXPORT cpFloat cpBodyGetTorque(const cpBody *body);"
   ),

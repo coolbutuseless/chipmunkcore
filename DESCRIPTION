@@ -1,7 +1,7 @@
 Package: chipmunkcore
 Type: Package
 Title: Low-Level Wrapper for Chipmunk 2D Physics Library
-Version: 0.1.5
+Version: 0.1.6
 Author: mikefc
 Maintainer: mikefc <mikefc@coolbutuseless.com>
 Description: Low-level wrapper for Chipmunk 2D Physics Library.
@@ -9,7 +9,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/coolbutuseless/chipmunkcore,https://coolbutuseless.github.io/package/chipmunkcore
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown

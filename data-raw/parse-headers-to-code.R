@@ -2,7 +2,7 @@
 
 suppressPackageStartupMessages({
   library(purrr)
-  library(cheddar)
+  library(cheddite)
 })
 
 options(warnPartialMatchDollar = TRUE)

@@ -1,4 +1,8 @@
 
+# chipmunkcore 0.1.6
+
+* Add `cpBodyGetTorque()` - addressing issue #2
+
 # chipmunkcore 0.1.5
 
 * Internal: regenerate C code using latest `{cheddar}` package.

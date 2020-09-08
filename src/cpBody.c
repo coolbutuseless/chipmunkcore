@@ -140,6 +140,19 @@ SEXP cpBodySetAngle_(SEXP body_, SEXP a_)  {
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT cpFloat cpBodyGetAngularVelocity(const cpBody *body);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpBodyGetAngularVelocity_(SEXP body_)  {
+  cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
+  if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
+  cpFloat result = cpBodyGetAngularVelocity(body);
+  SEXP result_ = PROTECT(ScalarReal(result));
+  UNPROTECT(1);
+  return result_;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // CP_EXPORT void cpBodySetAngularVelocity(cpBody *body, cpFloat angularVelocity);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SEXP cpBodySetAngularVelocity_(SEXP body_, SEXP angularVelocity_)  {
@@ -148,6 +161,19 @@ SEXP cpBodySetAngularVelocity_(SEXP body_, SEXP angularVelocity_)  {
   cpFloat angularVelocity = isInteger(angularVelocity_) ? (cpFloat)INTEGER(angularVelocity_)[0] : (cpFloat)REAL(angularVelocity_)[0];
   cpBodySetAngularVelocity(body, angularVelocity);
   return R_NilValue;
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CP_EXPORT cpFloat cpBodyGetTorque(const cpBody *body);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SEXP cpBodyGetTorque_(SEXP body_)  {
+  cpBody *body = TYPEOF(body_) != EXTPTRSXP ? NULL : (cpBody *)R_ExternalPtrAddr(body_);
+  if (body == NULL) error("'cpBody * body' pointer is invalid/NULL");
+  cpFloat result = cpBodyGetTorque(body);
+  SEXP result_ = PROTECT(ScalarReal(result));
+  UNPROTECT(1);
+  return result_;
 }
 
 
